@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, Button } from 'react-native';
+import { StyleSheet, View, Text, Image, Button, TouchableOpacity } from 'react-native';
 
 export default function ThreadItem(props) {
     return (
-        <View style={[styles.container, props.style]} onStartShouldSetResponder={() => {}} onStartShouldSetResponderCapture={props.onPress}>
+        <TouchableOpacity style={[styles.container, props.style]} activeOpacity={0.8} onPress={props.onPress}>
             <View style={styles.profileBox}>
                 <View style={styles.profileContainer}>
                     <View style={styles.icon}/>
@@ -12,7 +12,7 @@ export default function ThreadItem(props) {
                         <Text style={styles.profileClass}>{props.major}</Text>
                     </View>
                 </View>
-                <View style={styles.saleGroup}>
+                <View>
                     {props.isSale ? (
                         <View style={styles.iconSale}>
                             <Text style={styles.saleText}>판매</Text>
@@ -39,7 +39,7 @@ export default function ThreadItem(props) {
                         <Text style={styles.bookExplain}>내용: </Text>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }
 

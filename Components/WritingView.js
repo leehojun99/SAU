@@ -1,15 +1,16 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { SafeAreaView, StyleSheet, View, Text, Image, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 
+import ChatBox from './ChatBox';
 
-export default function WritingView(){
+export default function WritingView(props){
     return(
-    <View>
-        <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+        <View>
+            <TouchableOpacity activeOpacity={0.8} style={styles.goBack} onPress={() => {props.navigation.goBack()}}>
+                <Text style={styles.goBackText}>뒤로가기</Text>
+            </TouchableOpacity>
             <View style={styles.saleArea}>
-                <View>
-
-                </View>
                 <View>
                     <View style={styles.iconSale}>
                         <Text style={styles.saleText}>판매</Text>
@@ -42,90 +43,78 @@ export default function WritingView(){
         </View>
         
         <View style={styles.chatBox}>
-            <View style={styles.chatBoxP}>
-                <View styles={styles.areaPuchaser}>
-                    <View>
-
-                    </View>
-                    <View>
-                        <Text style={styles.chatPurchaser}>구매자대화상자</Text>
-                    </View>
-                </View>
-            </View>
-            <View style={styles.chatBoxS}>
-                <View styles={styles.areaSeller}>
-                    <View>
-
-                    </View>
-                    <View>
-                        <Text style={styles.chatSeller}>판매자대화상자</Text>
-                    </View>
+            <ScrollView style={styles.chatScroll}>
+                <ChatBox isMe={false} Text={"상대"} />
+                <ChatBox isMe={false} Text={"상대"} />
+                <ChatBox isMe={false} Text={"상대"} />
+                <ChatBox isMe={true} Text={"나"} />
+                <ChatBox isMe={false} Text={"상대"} />
+                <ChatBox isMe={true} Text={"나"} />
+                <ChatBox isMe={false} Text={"상대"} />
+                <ChatBox isMe={true} Text={"나"} />
+                <ChatBox isMe={false} Text={"상대"} />
+                <ChatBox isMe={true} Text={"나"} />
+                <ChatBox isMe={false} Text={"상대"} />
+                <ChatBox isMe={true} Text={"나"} />
+                <ChatBox isMe={false} Text={"상대"} />
+                <ChatBox isMe={true} Text={"나"} />
+                <ChatBox isMe={false} Text={"상대"} />
+                <ChatBox isMe={true} Text={"나"} />
+                <ChatBox isMe={false} Text={"상대"} />
+                <ChatBox isMe={true} Text={"나"} />
+            </ScrollView>
+            <View style={styles.chatInputContainer}>
+                <TextInput style={styles.chatInput}></TextInput>
+                <View style={styles.sendButton}>
+                    <Text>전송</Text>
                 </View>
             </View>
         </View>
-
-    </View>
+    </SafeAreaView>
     );
 }
 
-
-
-
 const styles = StyleSheet.create({
-    container :{
-        
+    container : {
+        flex: 1,
     },
-    areaPuchaser:{
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
+    goBack: {
+        padding: 10,
     },
-    areaSeller:{
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-    },
-    chatBoxS: {
-        marginTop: 5,
-        padding: 2.5,
-        paddingLeft: 5,
-        paddingRight: 5,
-        width:150,
-        height: 40,
-        borderRadius: 5,
-        backgroundColor: '#00D8FF',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    chatBoxP: {
-        marginTop: 5,
-        padding: 2.5,
-        paddingLeft: 5,
-        paddingRight: 5,
-        width: 150,
-        height: 40,
-        borderRadius: 5,
-        backgroundColor: '#FFE400',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    chatPurchaser:{
-        color: '#FFF',
-        fontWeight: 'bold',
+    goBackText: {
         fontSize: 20,
     },
-    chatSeller:{
-        color: '#FFF',
-        fontWeight: 'bold',
-        fontSize: 20,
+    chatInputContainer: {
+        flexDirection:'row',
     },
     chatBox:{
-        flexDirection: 'row',
-        flex : 1,
-        paddingTop: 20,
+        flex: 1,
+        margin: 0,
+        paddingTop: 15,
         paddingLeft: 20,
-        paddingRight: 20,
-        paddingBottom: 10,
+        paddingRight: 0,
+        paddingBottom: 20,
         marginBottom: 3,
         backgroundColor :'#B7F0B1'
+    },
+    chatScroll: {
+        marginBottom: 10,
+    },
+    sendButton: {
+        marginRight: 20,
+        backgroundColor: '#FFF',
+        justifyContent: 'center',
+        padding: 5,
+        borderRadius: 10,
+    },
+    chatInput: {
+        flex: 1,
+        borderRadius: 20,
+        paddingTop: 5,
+        paddingBottom: 5,
+        marginBottom: 0,
+        marginRight: 10,
+        backgroundColor: '#FFF',
     },
     pofileContainer:{
         flexDirection: 'row',

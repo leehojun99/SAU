@@ -9,9 +9,7 @@ const func23 = () => {
 };
 
 
-function func1(int a, b) {
-    returna + b; 
-}
+
 
 export default function Home({navigation}) {
     return(

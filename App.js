@@ -16,7 +16,7 @@ export default function App() {
       <SafeAreaView style={styles.conatiner}>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={Home} options={{headerShown: false}}></Stack.Screen>
-          <Stack.Screen name="Order" component={WritingView}></Stack.Screen>
+          <Stack.Screen name="Order" component={WritingView} options={{headerShown: false}}></Stack.Screen>
         </Stack.Navigator>
         <StatusBar barStyle={'light-content'}/>
       </SafeAreaView>
