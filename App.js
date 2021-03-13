@@ -1,21 +1,35 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Button, SafeAreaView, Platform, ImagePickerIOS} from 'react-native';
+import Constants from 'expo-constants';
+const statusBarHeight = Constants.statusBarHeight;
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+import Home from './View/Home';
+import WritingView from './Components/WritingView';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <SafeAreaView style={styles.conatiner}>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home" component={Home} options={{headerShown: false}}></Stack.Screen>
+          <Stack.Screen name="Order" component={WritingView}></Stack.Screen>
+        </Stack.Navigator>
+        <StatusBar barStyle={'light-content'}/>
+      </SafeAreaView>
+    </NavigationContainer>
   );
 }
 
+const Stack = createStackNavigator();
+
 const styles = StyleSheet.create({
-  container: {
+  conatiner: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#F7F5F4',
+    paddingTop: Platform.OS === 'android' ? statusBarHeight : 0,
   },
-});
+}); 
