@@ -33,10 +33,10 @@ export default function ThreadItem(props) {
                 </View>
                 <View style ={styles.bookData}> 
                     <View style={styles.bookName}>
-                        <Text style={styles.bookName}>책이름: </Text>
+                        <Text style={styles.bookName}>{props.bookName}</Text>
                         <Text>(과목명)</Text>
                     </View>
-                        <Text style={styles.bookExplain}>내용: </Text>
+                        <Text style={styles.bookExplain}>{props.description}</Text>
                 </View>
             </View>
         </TouchableOpacity>
