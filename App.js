@@ -9,12 +9,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import Home from './View/Home';
 import WritingView from './Components/WritingView';
+import Login from './View/Login';
 
 export default function App() {
   return (
-    <NavigationContainer>
+    <NavigationContainer>  
       <SafeAreaView style={styles.conatiner}>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen name="Login" component={Login} options={{headerShown: false}}></Stack.Screen>
           <Stack.Screen name="Home" component={Home} options={{headerShown: false}}></Stack.Screen>
           <Stack.Screen name="Order" component={WritingView} options={{headerShown: false}}></Stack.Screen>
         </Stack.Navigator>

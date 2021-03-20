@@ -1,12 +1,17 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import { faBell, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faBell, faSearch,faQuestion } from '@fortawesome/free-solid-svg-icons'
  
 export default function TopBar() {
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>실시간</Text>
+            <View style={styles.topContainer}>
+                 <Text style={styles.title}>실시간</Text>
+                 <View style={styles.QnA}>
+                    <FontAwesomeIcon icon={faQuestion} size={30}/>
+                 </View>
+            </View>
             <View style={styles.toolBar}>
                 <View style={styles.search}>
                     <FontAwesomeIcon icon={faSearch} size={30}/>
@@ -20,7 +25,16 @@ export default function TopBar() {
 
 const styles = StyleSheet.create({
     container: {
+
         marginBottom: 15,
+    },
+    topContainer: {
+        flexDirection: 'row',
+        justifyContent:'space-between'
+    }, 
+    QnA :{
+        paddingTop: 15,
+        marginRight: 20,
     },
     title: {
         padding: 20,
