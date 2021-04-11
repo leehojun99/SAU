@@ -4,19 +4,20 @@ import { StyleSheet, View, Text, Image, Button, TouchableOpacity } from 'react-n
 export default function ThreadItem(props) {
     return (
         <TouchableOpacity style={[styles.container, props.style]} activeOpacity={0.8} onPress={props.onPress}>
+            {/* 글을 클릭하면  거래 가능한 페이지로 넘어감*/}
             <View style={styles.profileBox}>
                 <View style={styles.profileContainer}>
-                    <View style={styles.icon}/>
+                    <View style={styles.icon}/> {/* */}
                     <View style={styles.profileData}>
                         <Text style={styles.profileName}>{props.name}</Text>
                         <Text style={styles.profileClass}>{props.major}</Text>
                     </View>
                 </View>
-                <View>
+                <View>  {/* 판매 글인지 구매글인지*/}
                     {props.isSale ? (
                         <View style={styles.iconSale}>
                             <Text style={styles.saleText}>판매</Text>
-                        </View>
+                        </View> 
                     ) : (
                         <View style={styles.iconPurchase}>
                             <Text style={styles.saleText}>구매</Text>

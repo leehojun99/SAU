@@ -19,12 +19,14 @@ export default function Home({navigation}) {
 
   return (
       <View style={{flex: 1}}>
-          <TopBar/>
+          <TopBar>
+            <FontAwesomeIcon icon={faPencilAlt} onPress={() => {navigation.navigate('Post')}}/>
+          </TopBar>
           <ScrollView>
             {threadItems.map((item, index) => (
               <ThreadItem onPress={() => {navigation.navigate('Order')}} name={item.name} major={item.major} isSale={!item.isSell} bookName={item.bookName} description={item.description}/>
-            ))} //글을 누르면  글 세부 내용이자 댓글형식으로 대화할수있는 창으로 넘어감 (WritingView) //
-          </ScrollView>
+            ))}
+          </ScrollView> {/* 스레드 아이템 = 판/구매글을 누르면  '주문' 으로 넘어감*/}
       </View> 
   );
     

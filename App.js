@@ -7,26 +7,26 @@ const statusBarHeight = Constants.statusBarHeight;
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import {UserContext} from './UserContext';// 유저 콘텍스트 받아온것 
+import {UserContext} from './UserContext'; // 유저 콘텍스트 받아온것 
 
 import Home from './View/Home';
 import WritingView from './Components/WritingView';
 import Login from './View/Login';
+import Post from './View/Post';
 
 export default function App() {
   const user = {
     userCode: 'code1',
     userCookie: 'cookie1', // 초기값 설정
-  }//오브젝트 타입 
+  } //오브젝트 타입 
 
   return (
-    <NavigationContainer>
+    <NavigationContainer> 
       <UserContext.Provider value={user}>
         <SafeAreaView style={styles.conatiner}>
-          <Stack.Navigator initialRouteName="Login">
+          <Stack.Navigator initialRouteName="Login">  
               <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
-              <Stack.Screen name="Home" component={Home} options={{headerShown: false}}></Stack.Screen>
-              <Stack.Screen name="Order" component={WritingView} options={{headerShown: false}}></Stack.Screen>
+              <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
           </Stack.Navigator>
           <StatusBar barStyle={'light-content'}/>
         </SafeAreaView>
@@ -34,13 +34,12 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-const Stack = createStackNavigator();
+const Stack = createStackNavigator();  /*창이 넘어가는게 아니라 스택형식으로 위에쌓인다*/
 
 const styles = StyleSheet.create({
   conatiner: {
     flex: 1,
     backgroundColor: '#F7F5F4',
-    paddingTop: Platform.OS === 'android' ? statusBarHeight : 0,
+    paddingTop: Platform.OS === 'android' ? statusBarHeight : 0,  /*안드로이드랑 ios 에서 상단바 보이는게 달라서 같게 보이도록 수정*/
   },
 }); 
