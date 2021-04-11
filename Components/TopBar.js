@@ -1,10 +1,11 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text,TouchableOpacity} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import { faBell, faSearch,faQuestion } from '@fortawesome/free-solid-svg-icons'
+import { faBell, faSearch,faQuestion,faPencilAlt } from '@fortawesome/free-solid-svg-icons';
  
-export default function TopBar() {
+export default function TopBar({navigation}) {
     return (
+        
         <View style={styles.container}>
             <View style={styles.topContainer}>
                  <Text style={styles.title}>실시간</Text>
@@ -15,8 +16,8 @@ export default function TopBar() {
             <View style={styles.toolBar}>
                 <View style={styles.search}>
                     <FontAwesomeIcon icon={faSearch} size={30}/>
-                    <Text style={styles.searchText}>검색</Text>
-                </View>
+                    <Text style={styles.searchText}>검색</Text> 
+                </View> 
                 <FontAwesomeIcon icon={faBell} size={30}/>
             </View>
         </View>
@@ -24,6 +25,15 @@ export default function TopBar() {
 };
 
 const styles = StyleSheet.create({
+    Poststyle: {
+        padding: 10,
+    },
+
+    post:{
+        flexDirection: 'row',
+        
+    },
+
     container: {
 
         marginBottom: 15,

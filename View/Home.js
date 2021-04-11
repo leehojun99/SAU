@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, View, ScrollView, Alert, Text } from 'react-native';
+import { StyleSheet, View, ScrollView, Alert, Text, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 
 import TopBar from '../Components/TopBar';
 import ThreadItem from '../Components/ThreadItem';
 
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import { faBell, faSearch,faQuestion,faPencilAlt, faAlignCenter } from '@fortawesome/free-solid-svg-icons'
 
 export default function Home({navigation}) {
   
@@ -19,16 +21,39 @@ export default function Home({navigation}) {
 
   return (
       <View style={{flex: 1}}>
-          <TopBar>
-            <FontAwesomeIcon icon={faPencilAlt} onPress={() => {navigation.navigate('Post')}}/>
-          </TopBar>
+          <TopBar navigation={navigation}/>
           <ScrollView>
             {threadItems.map((item, index) => (
               <ThreadItem onPress={() => {navigation.navigate('Order')}} name={item.name} major={item.major} isSale={!item.isSell} bookName={item.bookName} description={item.description}/>
             ))}
-          </ScrollView> {/* 스레드 아이템 = 판/구매글을 누르면  '주문' 으로 넘어감*/}
+          </ScrollView>
+          <TouchableOpacity style={styles.post} activeOpacity={0.8} onPress={() => {navigation.navigate('Post')}} >
+              <FontAwesomeIcon style={styles.postIcon} icon={faPencilAlt} size={30}/>
+          </TouchableOpacity>
       </View> 
   );
     
 }
 
+const styles = StyleSheet.create({
+  post: {
+    flex : 1,
+    flexDirection: 'row',
+    right: 20,
+    bottom: 20,
+    borderRadius: 50,
+    width: 75,
+    height: 75,
+    backgroundColor: '#FFF',
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowOpacity: 0.25,
+    shadowOffset: {width: 0, height: 3},
+    shadowRadius: 8,
+
+  },
+  postIcon: {
+
+  }
+})

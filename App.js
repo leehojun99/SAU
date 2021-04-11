@@ -13,20 +13,23 @@ import Home from './View/Home';
 import WritingView from './Components/WritingView';
 import Login from './View/Login';
 import Post from './View/Post';
+import { faAlignJustify } from '@fortawesome/free-solid-svg-icons';
 
 export default function App() {
   const user = {
-    userCode: 'code1',
-    userCookie: 'cookie1', // 초기값 설정
+    userCode: '',
+    userCookie: '', // 초기값 설정
   } //오브젝트 타입 
 
   return (
     <NavigationContainer> 
       <UserContext.Provider value={user}>
         <SafeAreaView style={styles.conatiner}>
-          <Stack.Navigator initialRouteName="Login">  
+          <Stack.Navigator initialRouteName="Home">  
               <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
               <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
+              <Stack.Screen name="Post" component={Post} options={{headerShown: false}}/>
+              <Stack.Screen name="Order" component={WritingView} options={{headerShown: false}}/>
           </Stack.Navigator>
           <StatusBar barStyle={'light-content'}/>
         </SafeAreaView>

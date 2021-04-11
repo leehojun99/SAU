@@ -3,15 +3,15 @@ import { SafeAreaView, StyleSheet, View, Text, Image, ScrollView, TextInput, Tou
 
 import ChatBox from './ChatBox';
 
-export default function WritingView(props){
+export default function WritingView({navigation}){
     return(
     <SafeAreaView style={styles.container}>
         <View>
-            <TouchableOpacity activeOpacity={0.8} style={styles.goBack} onPress={() => {props.navigation.goBack()}}>
+            <TouchableOpacity activeOpacity={0.8} style={styles.goBack} onPress={() => {navigation.goBack()}}>
                 <Text style={styles.goBackText}>뒤로가기</Text>
             </TouchableOpacity>
             <View style={styles.saleArea}>
-                <View>
+                <View> 
                     <View style={styles.iconSale}>
                         <Text style={styles.saleText}>판매</Text>
                     </View>
@@ -42,8 +42,8 @@ export default function WritingView(props){
                 </View>
         </View>
         
-        <View style={styles.chatBox}>
-            <ScrollView style={styles.chatScroll}>
+        <View style={styles.chatBox}> 
+            <ScrollView style={styles.chatScroll}> 
                 <ChatBox isMe={false} Text={"상대"} />
                 <ChatBox isMe={false} Text={"상대"} />
                 <ChatBox isMe={false} Text={"상대"} />
@@ -63,9 +63,9 @@ export default function WritingView(props){
                 <ChatBox isMe={false} Text={"상대"} />
                 <ChatBox isMe={true} Text={"나"} />
             </ScrollView>
-            <View style={styles.chatInputContainer}>
-                <TextInput style={styles.chatInput}></TextInput>
-                <View style={styles.sendButton}>
+            <View style={styles.chatInputContainer}> 
+                <TextInput style={styles.chatInput}></TextInput> 
+                <View style={styles.sendButton}>  
                     <Text>전송</Text>
                 </View>
             </View>

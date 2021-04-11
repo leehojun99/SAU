@@ -7,21 +7,26 @@ import {UserContext} from '../UserContext';
 import axios from 'axios';
 
 export default function Login ({navigation}){
-  const [id, setID] = useState(''); //변수 ,함수 인데 그냥 외우면된다고함 
+  const [id, setID] = useState(''); //변수 ,함수 선언 방식 인데 그냥 외우면된다고함 
   const [password, setPassword] = useState('');
   const [user, setUser] = useState({userCode: '', userCookie: ''});
 
-  const [server, setServer] = useState('http://172.30.1.55:3000');
+  let server = 'https://api.saubook.store'; //도메인 주소  바뀔 일 없음 .
 
   function login() {
-    axios.get(server + '/auth/login?userId=' + id + '&userPassword=' + password) //로그인 주소로 보내는것
+    axios.get(server + '/auth/login?userId=' + id + '&userPassword=' + password) //로그인 주소로 보내는것//
     .then(function (response){
       if (response.data["isLogin"] == true) {
         setUser({userCode: user.userCode, userCookie: response.data["Cookie"]});
+        
+        // 로그인 성공
         console.log(user);
+        
+        navigation.navigate('Home');
+
       } else {
         alert('로그인 실패');
-      } // 로그인 시도한 값이 맞는지 확인 하는것
+      } // 로그인 시도한 값이 맞는지 확인 하는것 (쿠키 형식으로 서버에서 받아서 확인함 )
     })
   }
 
@@ -56,6 +61,11 @@ export default function Login ({navigation}){
             <View style={styles.inputContainer}>
               <FontAwesomeIcon icon={faKey} size={20}/>
               <TextInput
+                secureTextEntry={true} // 패스워드 암호화
+                onSubmitEditing={() => {
+                  login();
+                  setUser(user);//엔터를 눌렀을 경우  로그인 
+                }}
                 style={styles.input}
                 underlineColorAndroid="transparent"
                 placeholder="Password"
