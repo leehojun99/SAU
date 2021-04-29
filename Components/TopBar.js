@@ -2,13 +2,16 @@ import React from 'react';
 import {StyleSheet, View, Text,TouchableOpacity} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import { faBell, faSearch,faQuestion,faPencilAlt } from '@fortawesome/free-solid-svg-icons';
- 
-export default function TopBar({navigation}) {
+
+
+export default function TopBar(props) {
     return (
         
         <View style={styles.container}>
             <View style={styles.topContainer}>
+            <TouchableOpacity activeOpacity={0.8} onPress={() => {props.reload(); /* navigation.navigate('Post') */}} >
                  <Text style={styles.title}>실시간</Text>
+            </TouchableOpacity>
                  <View style={styles.QnA}>
                     <FontAwesomeIcon icon={faQuestion} size={30}/>
                  </View>

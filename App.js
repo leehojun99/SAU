@@ -13,7 +13,7 @@ import Home from './View/Home';
 import WritingView from './Components/WritingView';
 import Login from './View/Login';
 import Post from './View/Post';
-import { faAlignJustify } from '@fortawesome/free-solid-svg-icons';
+
 
 export default function App() {
   const user = {

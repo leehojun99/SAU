@@ -34,10 +34,12 @@ export default function ThreadItem(props) {
                 </View>
                 <View style ={styles.bookData}> 
                     <View style={styles.bookName}>
-                        <Text style={styles.bookName}>{props.bookName}</Text>
-                        <Text>(과목명)</Text>
+                        <Text style={styles.bookName}>{props.title}</Text>
+                       
                     </View>
+                    <View style={styles.money}>
                         <Text style={styles.bookExplain}>{props.description}</Text>
+                    </View>
                 </View>
             </View>
         </TouchableOpacity>
@@ -146,5 +148,8 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 1,
         backgroundColor: '#333',
+    },
+    money:{
+        marginRight: 10,
     }
 });

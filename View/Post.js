@@ -5,7 +5,7 @@ import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolic
 import ToggleButton from '../Components/ToggleButton';
 
 export default function Post({navigation}){
-    const [value, onChangeText] = React.useState('0000000');
+    const [value, onChangeText] = React.useState();
     const [majorValue, setMajorValue] = useState(0);
     const [sellValue, setSellValue] = useState(0);
     return (
@@ -37,17 +37,16 @@ export default function Post({navigation}){
                 </Image> 
                 <View style={styles.rightContainer}>        
                     <View style={styles.Check}>
-                        
-                            <ToggleButton styles={{margin: 5}} item={['전공', '교양']} value={majorValue} onChangeValue={setMajorValue}/>
-                            
-                            <ToggleButton styles={{margin: 5}} item={['판매', '구매']} value={sellValue} onChangeValue={setSellValue}/>
-                            
+                            <ToggleButton styles={{margin: 5}} item={['판매', '구매']} value={sellValue} onChangeValue={setSellValue}/>                 
                     </View>  
                     <View style={styles.Bookname} >
                             <View style={styles.inputContainer}>
                                 <TextInput placeholder={"책 이름"} style={{backgroundColor:'white' , flex: 1, padding: 5,}} onChangeText={text => onChangeText(text)} value={value}/>
                             </View>
-                    </View>   
+                    </View> 
+                    <View style={styles.money}>
+                         <TextInput placeholder={"가격 "} style={{backgroundColor:'white' , flex: 1, padding: 5,}} onChangeText={text => onChangeText(text)} value={value}/>
+                    </View>  
                 </View>
             </View>  
             <TextInput placeholder={"글 내용"} style={styles.bookinfo} onChangeText={text => onChangeText(text)} value={value} /> 
@@ -139,6 +138,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginLeft: 10,
         padding: 0,
+        marginTop:5,
         marginRight: 30,
         alignItems: 'center',
     },
@@ -147,4 +147,13 @@ const styles = StyleSheet.create({
         paddingBottom: 150,
         backgroundColor: '#FFFFFF',
     },
+    money:{
+        flex: 1,
+        flexDirection: 'row',
+        marginLeft: 20,
+        padding: 0,
+        marginRight: 30,
+        marginTop:5,
+        alignItems: 'center',
+    }
 });
