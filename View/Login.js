@@ -3,13 +3,13 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import { faUserAlt, faKey } from '@fortawesome/free-solid-svg-icons'
 import { StyleSheet, View, Text,TextInput,TouchableOpacity, SafeAreaView, Linking } from 'react-native';
 
-import {UserContext} from '../UserContext';
+import {useUserContext} from "../UserContext.js";
 import axios from 'axios';
 
 export default function Login ({navigation}){
   const [id, setID] = useState(''); //변수 ,함수 선언 방식 인데 그냥 외우면된다고함 
   const [password, setPassword] = useState('');
-  const [user, setUser] = useState({userCode: '', userCookie: ''});
+  const {user, setUser} = useUserContext();
 
   let server = 'https://api.saubook.store'; //도메인 주소  바뀔 일 없음 .
 
@@ -17,10 +17,9 @@ export default function Login ({navigation}){
     axios.get(server + '/auth/login?userId=' + id + '&userPassword=' + password) //로그인 주소로 보내는것//
     .then(function (response){
       if (response.data["isLogin"] == true) {
-        setUser({userCode: user.userCode, userCookie: response.data["Cookie"]});
-        
+        setUser(response.data["token"]);
+        // userContext({userCode: response.data["token"], userCookie: user.userCookie});
         // 로그인 성공
-        console.log(user);
         
         navigation.navigate('Home');
 
@@ -35,8 +34,6 @@ export default function Login ({navigation}){
   })
 
   return (
-    <UserContext.Consumer>
-      {(user) => (
       <SafeAreaView style={styles.container}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>SAU</Text>
@@ -64,7 +61,6 @@ export default function Login ({navigation}){
                 secureTextEntry={true} // 패스워드 암호화
                 onSubmitEditing={() => {
                   login();
-                  setUser(user);//엔터를 눌렀을 경우  로그인 
                 }}
                 style={styles.input}
                 underlineColorAndroid="transparent"
@@ -81,7 +77,7 @@ export default function Login ({navigation}){
             onPress={() => {
               // navigation.navigate('Home');
               login();
-              setUser(user);//화면 이 바뀌는 걸 보이기위해
+              
             }}
           >
             <Text style={styles.submitButtonText}>로그인</Text>
@@ -92,12 +88,9 @@ export default function Login ({navigation}){
                 Linking.openURL('https://sso.sau.ac.kr/?confirmHak=true');
               }}  
             >계정이 기억나지 않으신가요?</Text>
-            <Text>{user.userCode}</Text>
           </View>
         </View>
       </SafeAreaView>
-      )}
-    </UserContext.Consumer>
   );
 }
 

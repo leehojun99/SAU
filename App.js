@@ -7,7 +7,7 @@ const statusBarHeight = Constants.statusBarHeight;
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import {UserContext} from './UserContext'; // 유저 콘텍스트 받아온것 
+import {UserProviderContext} from './UserContext'; // 유저 콘텍스트 받아온것 
 
 import Home from './View/Home';
 import WritingView from './Components/WritingView';
@@ -15,17 +15,12 @@ import Login from './View/Login';
 import Post from './View/Post';
 
 
-export default function App() {
-  const user = {
-    userCode: '',
-    userCookie: '', // 초기값 설정
-  } //오브젝트 타입 
-
+export default function App() { 
   return (
     <NavigationContainer> 
-      <UserContext.Provider value={user}>
+      <UserProviderContext>
         <SafeAreaView style={styles.conatiner}>
-          <Stack.Navigator initialRouteName="Home">  
+          <Stack.Navigator initialRouteName="Login">  
               <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
               <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
               <Stack.Screen name="Post" component={Post} options={{headerShown: false}}/>
@@ -33,7 +28,7 @@ export default function App() {
           </Stack.Navigator>
           <StatusBar barStyle={'light-content'}/>
         </SafeAreaView>
-      </UserContext.Provider>
+      </UserProviderContext>
     </NavigationContainer>
   );
 }

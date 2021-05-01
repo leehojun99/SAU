@@ -1,74 +1,73 @@
-import React from 'react';
-import {StyleSheet, View, Text,TouchableOpacity} from 'react-native';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import { faBell, faSearch,faQuestion,faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-
+import React from "react";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import {
+  faBell,
+  faSearch,
+  faQuestion,
+  faPencilAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function TopBar(props) {
-    return (
-        
-        <View style={styles.container}>
-            <View style={styles.topContainer}>
-            <TouchableOpacity activeOpacity={0.8} onPress={() => {props.reload(); /* navigation.navigate('Post') */}} >
-                 <Text style={styles.title}>실시간</Text>
-            </TouchableOpacity>
-                 <View style={styles.QnA}>
-                    <FontAwesomeIcon icon={faQuestion} size={30}/>
-                 </View>
-            </View>
-            <View style={styles.toolBar}>
-                <View style={styles.search}>
-                    <FontAwesomeIcon icon={faSearch} size={30}/>
-                    <Text style={styles.searchText}>검색</Text> 
-                </View> 
-                <FontAwesomeIcon icon={faBell} size={30}/>
-            </View>
+  return (
+    <View style={styles.container}>
+      <View style={styles.topContainer}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => {
+            props.reload(); /* navigation.navigate('Post') */
+          }}
+        >
+          <Text style={styles.title}>실시간</Text>
+        </TouchableOpacity>
+        <View style={styles.icon}>
+          <TouchableOpacity style={styles.search} onPress={() => {}}>
+            <FontAwesomeIcon icon={faSearch} size={25} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.bell} onPress={() => {}}>
+            <FontAwesomeIcon icon={faBell} size={25} />
+          </TouchableOpacity>
         </View>
-    );
-};
+      </View>
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
-    Poststyle: {
-        padding: 10,
-    },
+  Poststyle: {
+    padding: 10,
+  },
 
-    post:{
-        flexDirection: 'row',
-        
-    },
+  post: {
+    flexDirection: "row",
+  },
 
-    container: {
+  container: {
+    marginBottom: 15,
+  },
+  topContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  QnA: {
+    paddingTop: 15,
+    marginRight: 20,
+  },
+  title: {
+    padding: 20,
+    paddingBottom: 15,
+    fontSize: 30,
+    fontWeight: "bold",
+  },
 
-        marginBottom: 15,
-    },
-    topContainer: {
-        flexDirection: 'row',
-        justifyContent:'space-between'
-    }, 
-    QnA :{
-        paddingTop: 15,
-        marginRight: 20,
-    },
-    title: {
-        padding: 20,
-        paddingBottom: 15,
-        fontSize: 30,
-        fontWeight: 'bold',
-    },
-    toolBar: {
-        marginLeft: 20,
-        marginRight: 20,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    search: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    searchText: {
-        paddingLeft: 10,
-        fontSize :17,
-        fontWeight: "bold",
-    }
-
+  icon: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  search: {
+    paddingRight: 30,
+  },
+  bell: {
+    paddingRight: 20,
+  },
 });

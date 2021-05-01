@@ -3,14 +3,14 @@ import { StyleSheet, View, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function ToggleButton (props){
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState(false);
 
     return(
         <View style={[styles.container, props.styles]}>
-            <TouchableOpacity activeOpacity={0.8} onPress={() => {props.onChangeValue(0);}} style={[styles.left, (props.value ==0)? styles.selected: styles.unSelected]}>
+            <TouchableOpacity activeOpacity={0.8} onPress={() => {props.onChangeValue(false);}} style={[styles.left, (props.value ==0)? styles.selected: styles.unSelected]}>
                 <Text styles={(props.value ==0)? styles.selectedText: styles.unSelectedText}>{props.item[0]}</Text>
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.8} onPress={() => {props.onChangeValue(1);}} style={[styles.right, (props.value ==1)? styles.selected: styles.unSelected]}>
+            <TouchableOpacity activeOpacity={0.8} onPress={() => {props.onChangeValue(true);}} style={[styles.right, (props.value ==1)? styles.selected: styles.unSelected]}>
                 <Text styles={(props.value ==1)? styles.selectedText: styles.unSelectedText}>{props.item[1]}</Text>
             </TouchableOpacity>
         </View>

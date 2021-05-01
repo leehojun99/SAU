@@ -6,31 +6,13 @@ import ChatBox from './ChatBox';
 export default function WritingView({navigation}){
     return(
     <SafeAreaView style={styles.container}>
+        
         <View>
             <TouchableOpacity activeOpacity={0.8} style={styles.goBack} onPress={() => {navigation.goBack()}}>
                 <Text style={styles.goBackText}>뒤로가기</Text>
             </TouchableOpacity>
-            <View style={styles.saleArea}>
-                <View> 
-                    <View style={styles.iconSale}>
-                        <Text style={styles.saleText}>판매</Text>
-                    </View>
-                    <View style={styles.iconPurchase}>
-                        <Text style={styles.saleText}>구매</Text>
-                    </View>
-                </View>   
-            </View>
-            <View>
-                <Image style={styles.bookImage}
-                            source={{uri: 'https://reactnative.dev/img/tiny_logo.png',}}>
-                </Image>
-            </View>
-        
-        </View>
-        <View>
-            <Text style={styles.bookfont}>도서명 :  ......</Text>
-        </View>
-        <View style={styles.pofileContainer}>
+
+            <View style={styles.pofileContainer}>
             <View style={styles.profile}>
                 <View style={styles.Icon}>
                     <View style={styles.profileIcon}/>
@@ -41,6 +23,35 @@ export default function WritingView({navigation}){
                     </View>
                 </View>
         </View>
+            
+            <View>
+            <View style={styles.saleArea}>
+            <Image style={styles.bookImage}
+                            source={{uri: 'https://reactnative.dev/img/tiny_logo.png',}}>
+                </Image>
+                <View> 
+                    <View style={styles.iconSale}>
+                        <Text style={styles.saleText}>판매</Text>
+                    </View>
+                    <View style={styles.iconPurchase}>
+                        <Text style={styles.saleText}>구매</Text>
+                    </View>
+                </View>   
+            </View>
+                
+                
+            </View>
+        
+        </View>
+        <View>
+            <View style={styles.book}> 
+                <Text style={styles.font}>도서명 :  </Text><Text style={styles.bookName}>....</Text>
+            </View>
+            <View style={styles.sell}>
+                <Text style={styles.font}>가 격 :  </Text><Text style={styles.isSell}>....</Text>
+            </View>
+        </View>
+        
         
         <View style={styles.chatBox}> 
             <ScrollView style={styles.chatScroll}> 
@@ -143,7 +154,7 @@ const styles = StyleSheet.create({
     },
     saleArea:{
         flexDirection: 'row',
-        justifyContent: 'flex-end',
+        justifyContent: 'space-between',
     },
     bookImage: {
         marginLeft: 4,
@@ -180,11 +191,25 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 20,
     },
-    bookfont : {
+    
+   font : {
         fontWeight: 'bold',
         fontSize: 30,
+    },
+    bookName :{
+        fontWeight: 'bold',
+        fontSize: 30,
+    },
+    isSell : {
+        fontWeight: 'bold',
+        fontSize: 30,
+    },
+    book : {
+        flexDirection: 'row'
+    },
+    sell : {
+        flexDirection : 'row'
     }
-
 
 
 });

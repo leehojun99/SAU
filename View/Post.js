@@ -1,21 +1,34 @@
-import React,  { Component, useRef, useState, createRef } from 'react';
+import React,  { Component, useRef, useContext, useState, createRef } from 'react';
 import { StyleSheet, View, Text, Image, ScrollView,CheckBox, TextInput, TouchableOpacity } from 'react-native';
-import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace';
 
 import ToggleButton from '../Components/ToggleButton';
+import {useUserContext} from '../UserContext';
+import axios from 'axios';
 
 export default function Post({navigation}){
+    const { user, setUser } = useUserContext();
+    let server = 'https://api.saubook.store'; //도메인 주소  바뀔 일 없음 .
+
+    const posting = () => {
+        console.log( 'userCode : ' + user);
+        axios.post(server + '/post?token=' + user + '&bookToken=ae7344375719d25ced899e440e37565973a2a46c&isSell=' + sellValue + '&description='+ content +'&major=11&price=' + priceValue + '&image_token=')
+        .then(function(response) {
+            navigation.navigate('Home');
+        }) 
+    }
+    
     const [value, onChangeText] = React.useState();
+    const [content, onChangeContent] = useState('');
+    const [priceValue, onChangePrice] = useState(0); 
     const [majorValue, setMajorValue] = useState(0);
-    const [sellValue, setSellValue] = useState(0);
+    const [sellValue, setSellValue] = useState(false);
     return (
-        
         <View > 
             <View style={styles.Posttop}>
             <TouchableOpacity activeOpacity={0.8} style={styles.goBack} onPress={() => {navigation.goBack()}}>
                 <Text style={styles.goBackText}>뒤로가기</Text>
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.8} style={styles.Ok} onPress={() => {navigation.navigate('Home')}}>
+            <TouchableOpacity activeOpacity={0.8} style={styles.Ok} onPress={posting}>
                 <Text style={styles.Oktext}>작성완료</Text>
             </TouchableOpacity>
             </View>
@@ -45,11 +58,12 @@ export default function Post({navigation}){
                             </View>
                     </View> 
                     <View style={styles.money}>
-                         <TextInput placeholder={"가격 "} style={{backgroundColor:'white' , flex: 1, padding: 5,}} onChangeText={text => onChangeText(text)} value={value}/>
+                         <TextInput placeholder={"가격 "} style={{backgroundColor:'white' , flex: 1, padding: 5,}} onChangeText={text => onChangePrice(text)} value={priceValue}/>
                     </View>  
+                     
                 </View>
             </View>  
-            <TextInput placeholder={"글 내용"} style={styles.bookinfo} onChangeText={text => onChangeText(text)} value={value} /> 
+            <TextInput placeholder={"글 내용"} style={styles.bookinfo} onChangeText={text => onChangeContent(text)} value={content} /> 
                 
         </View>
     );
@@ -92,8 +106,8 @@ const styles = StyleSheet.create({
     bookImage: {
         marginLeft: 4,
         marginTop: 4,
-        width: 100,
-        height: 100,
+        width: 110,
+        height: 110,
     },
     Bookname:{
         flexDirection:'row',
