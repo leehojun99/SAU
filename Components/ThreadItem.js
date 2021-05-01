@@ -2,6 +2,8 @@ import React from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 
 export default function ThreadItem(props) {
+  let server = "https://api.saubook.store/"; //도메인 주소  바뀔 일 없음 .
+
   return (
     <TouchableOpacity
       style={[styles.container, props.style]}
@@ -13,7 +15,7 @@ export default function ThreadItem(props) {
         <View style={styles.bookImageContainer}>
           <Image
             style={styles.bookImage}
-            source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
+            source={{ uri: server + props.imageUri }}
           ></Image>
         </View>
 
@@ -21,7 +23,9 @@ export default function ThreadItem(props) {
           <View style={styles.sellContainer}>
             <Text style={styles.bookName}>{props.title}</Text>
             <View>
-              {props.isSale ? (
+              {props.isSearchData ? (
+                <View />
+              ) : props.isSale ? (
                 <View style={styles.iconSale}>
                   <Text style={styles.saleText}>판매</Text>
                 </View>
@@ -33,17 +37,25 @@ export default function ThreadItem(props) {
             </View>
           </View>
           <View style={styles.secon}>
-            <View style={styles.inform}>
-              <Text style={styles.userName}>{props.name} </Text>
-              <Text>({props.major}과)</Text>
-            </View>
+            {props.isSearchData ? (
+              <View />
+            ) : (
+              <View style={styles.inform}>
+                <Text style={styles.userName}>{props.name} </Text>
+                <Text>({props.major}과)</Text>
+              </View>
+            )}
             <View style={styles.thisprice}>
               <Text style={styles.priceClass}>\{props.price}</Text>
             </View>
           </View>
-          <View style={styles.descriptionContainer}>
-            <Text style={styles.bookExplain}>{props.description}</Text>
-          </View>
+          {props.isSearchData ? (
+            <View />
+          ) : (
+            <View style={styles.descriptionContainer}>
+              <Text style={styles.bookExplain}>{props.description}</Text>
+            </View>
+          )}
         </View>
       </View>
     </TouchableOpacity>
@@ -73,9 +85,9 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   iconSale: {
-    padding: 2.5,
-    paddingLeft: 5,
-    paddingRight: 5,
+    padding: 2,
+    paddingLeft: 7,
+    paddingRight: 7,
     height: 30,
     borderRadius: 5,
     backgroundColor: "#FF0000",
@@ -83,9 +95,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   iconPurchase: {
-    padding: 2.5,
-    paddingLeft: 5,
-    paddingRight: 5,
+    padding: 2,
+    paddingLeft: 7,
+    paddingRight: 7,
     height: 30,
     borderRadius: 5,
     backgroundColor: "#1DDB16",
@@ -126,8 +138,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   bookName: {
-    fontSize: 18,
-    marginBottom: 3,
+    fontSize: 19,
   },
   bookData: {
     flex: 1,
@@ -159,6 +170,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: 5,
   },
   inform: {
     flexDirection: "row",

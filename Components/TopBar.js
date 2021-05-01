@@ -21,7 +21,12 @@ export default function TopBar(props) {
           <Text style={styles.title}>실시간</Text>
         </TouchableOpacity>
         <View style={styles.icon}>
-          <TouchableOpacity style={styles.search} onPress={() => {}}>
+          <TouchableOpacity
+            style={styles.search}
+            onPress={() => {
+              props.navigation.navigate("SearchBook");
+            }}
+          >
             <FontAwesomeIcon icon={faSearch} size={25} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.bell} onPress={() => {}}>
