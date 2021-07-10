@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
+
+import { BarCodeScanner } from "expo-barcode-scanner";
 
 import { useUserContext } from "../UserContext";
 import axios from "axios";
@@ -21,7 +23,20 @@ import ThreadItem from "../Components/ThreadItem";
 
 export default function SearchBook({ navigation, route }) {
   const { user, setUser } = useUserContext();
+  const [scanned, setScanned] = useState(false);
   let server = "https://api.saubook.store"; //도메인 주소  바뀔 일 없음 .
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      setHasPermission(status === "granted");
+    })();
+  }, []);
+
+  const handleBarCodeScanned = ({ type, data }) => {
+    setScanned(true);
+    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+  };
 
   const searching = (bookTitle) => {
     axios
@@ -50,16 +65,34 @@ export default function SearchBook({ navigation, route }) {
               searching(text);
             }}
           ></TextInput>
-          <TouchableOpacity>
-            <FontAwesomeIcon icon={faBarcode} size={30} />
-          </TouchableOpacity>
         </View>
       </View>
+      <View style={{ height: 130 }}>
+        <BarCodeScanner
+          onBarCodeScanned={handleBarCodeScanned}
+          style={StyleSheet.absoluteFillObject}
+        />
+      </View>
+      {route.params.isSearchFilter ? (
+        <TouchableOpacity
+          style={styles.filterOff}
+          onPress={() => {
+            // 필터 해제
+            route.params.setBook("");
+            navigation.goBack();
+          }}
+        >
+          <Text style={styles.filterOffText}>검색 필터 해제</Text>
+        </TouchableOpacity>
+      ) : (
+        <View />
+      )}
+
       <ScrollView style={styles.searchResult}>
         {searchResult.map((item, index) => (
           <ThreadItem
             onPress={() => {
-              route.params.setBookToken(item);
+              route.params.setBook(item);
               navigation.goBack();
             }}
             isSearchData={true}
@@ -108,5 +141,11 @@ const styles = StyleSheet.create({
   },
   searchResult: {
     marginBottom: 80,
+  },
+  filterOff: {
+    padding: 10,
+  },
+  filterOffText: {
+    textAlign: "center",
   },
 });
