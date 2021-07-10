@@ -19,9 +19,9 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { UserProviderContext } from "./UserContext"; // 유저 콘텍스트 받아온것
 
 import Home from "./View/Home";
-import WritingView from "./Components/WritingView";
 import Login from "./View/Login";
 import Post from "./View/Post";
+import Order from "./View/Order";
 import SearchBook from "./View/SearchBook";
 
 export default function App() {
@@ -47,7 +47,7 @@ export default function App() {
             />
             <Stack.Screen
               name="Order"
-              component={WritingView}
+              component={Order}
               options={{ headerShown: false }}
             />
             <Stack.Screen
@@ -62,7 +62,8 @@ export default function App() {
     </NavigationContainer>
   );
 }
-const Stack = createStackNavigator(); /*창이 넘어가는게 아니라 스택형식으로 위에쌓인다*/
+const Stack =
+  createStackNavigator(); /*창이 넘어가는게 아니라 스택형식으로 위에쌓인다*/
 
 const styles = StyleSheet.create({
   conatiner: {

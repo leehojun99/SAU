@@ -21,9 +21,15 @@ import { useUserContext } from "../UserContext";
 import axios from "axios";
 import SearchBook from "./SearchBook";
 
-export default function Post({ navigation }) {
+export default function Post({ navigation, route }) {
   const { user, setUser } = useUserContext();
   let server = "https://api.saubook.store"; //도메인 주소  바뀔 일 없음 .
+
+  const getMyData = () => {
+    axios.post(server + "/getMy?token=" + user).then(function (response) {
+      console.log(response);
+    });
+  };
 
   const posting = () => {
     console.log("userCode : " + user);
@@ -33,7 +39,7 @@ export default function Post({ navigation }) {
           "/post?token=" +
           user +
           "&bookToken=" +
-          bookToken.token +
+          bookData.token +
           "&isSell=" +
           sellValue +
           "&description=" +
@@ -41,7 +47,7 @@ export default function Post({ navigation }) {
           "&major=11&price=" +
           priceValue +
           "&imageUri=" +
-          bookToken.imageUri
+          bookData.imageUri
       )
       .then(function (response) {
         console.log(response);
@@ -54,7 +60,7 @@ export default function Post({ navigation }) {
   const [priceValue, onChangePrice] = useState(0);
   const [majorValue, setMajorValue] = useState(0);
   const [sellValue, setSellValue] = useState(false);
-  const [bookToken, setBookToken] = useState("");
+  const [bookData, setBookData] = useState("");
 
   return (
     <View>
@@ -66,14 +72,14 @@ export default function Post({ navigation }) {
             navigation.goBack();
           }}
         >
-          <Text style={styles.goBackText}>뒤로가기</Text>
+          <Text style={styles.goBackText}>🔙</Text>
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.Ok}
           onPress={posting}
         >
-          <Text style={styles.Oktext}>작성완료</Text>
+          <Text style={styles.Oktext}>📝</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.pofileContainer}>
@@ -91,7 +97,7 @@ export default function Post({ navigation }) {
       <View style={styles.CheckArea}>
         <Image
           style={styles.bookImage}
-          source={{ uri: server + "/" + bookToken.imageUri }}
+          source={{ uri: server + "/" + bookData.imageUri }}
         ></Image>
         <View style={styles.rightContainer}>
           <View style={styles.Check}>
@@ -108,7 +114,8 @@ export default function Post({ navigation }) {
               style={styles.inputContainer}
               onPress={() => {
                 navigation.navigate("SearchBook", {
-                  setBookToken: setBookToken,
+                  setBook: setBookData,
+                  isSearchFilter: false,
                 });
               }}
             >
@@ -130,6 +137,7 @@ export default function Post({ navigation }) {
         style={styles.bookinfo}
         onChangeText={(text) => onChangeContent(text)}
         value={content}
+        multiline={true}
       />
     </View>
   );
@@ -173,6 +181,7 @@ const styles = StyleSheet.create({
     width: 110,
     height: 146,
     borderRadius: 5,
+    backgroundColor: "#FFF",
   },
   Bookname: {
     flexDirection: "row",
@@ -201,11 +210,11 @@ const styles = StyleSheet.create({
   },
   goBackText: {
     paddingLeft: 15,
-    fontSize: 20,
+    fontSize: 30,
   },
   Oktext: {
     paddingRight: 10,
-    fontSize: 20,
+    fontSize: 30,
   },
   Ok: {
     padding: 10,

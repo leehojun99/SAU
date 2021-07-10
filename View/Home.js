@@ -22,59 +22,38 @@ import {
   faAlignCenter,
 } from "@fortawesome/free-solid-svg-icons";
 
-export default function Home({ navigation }) {
+export default function Home({ navigation, route }) {
   let server = "https://api.saubook.store"; //도메인 주소  바뀔 일 없음 .
-  const [threadItems, setThreadItems] = useState([
-    {
-      name: "김소현",
-      major: "호텔 조리",
-      title: "조리학",
-      description: "조리학 책 구매 희망",
-      isSell: true,
-      imageUrl: "https://~~!!",
-    },
-    {
-      name: "이호준",
-      major: "컴정",
-      title: "네트워크",
-      description: "판매 합니다",
-      isSell: false,
-      imageUrl: "https://~~!!",
-    },
-    {
-      name: "김명조",
-      major: "멀티미디어",
-      title: "행복한 가정만들기",
-      description: "교양 책 구매",
-      isSell: true,
-      imageUrl: "https://~~!!",
-    },
-    {
-      name: "아바타",
-      major: "경호",
-      title: "채픔",
-      description: "채플책 삽니다.",
-      isSell: true,
-      imageUrl: "https://~~!!",
-      price: "15000",
-    },
-    {
-      name: "인지훈",
-      major: "기계",
-      title: "기계 공학",
-      description: "기계 공학 책 판매",
-      isSell: false,
-      imageUrl: "https://~~!!",
-    },
-    {
-      name: "신인성",
-      major: "예체능",
-      title: "스포츠 농구",
-      description: "스포츠 농구 책 판매",
-      isSell: false,
-      imageUrl: "https://~~!!",
-    },
-  ]);
+
+  useEffect(() => {
+    if (threadItems.length == 0) reloadTimeline();
+    console.log(filterData);
+  }); //처음 들가면 화면 새로고침
+
+  const settingFilter = (filterData) => {
+    setRefreshing(true); // 새로고침 시작
+    setFilter(filterData);
+
+    if (filterData.token != "")
+      axios
+        .get(server + "/post/search?type=token&token=" + filterData.token) // 서버에서 타임라인 가져오기
+        .then(function (response) {
+          console.log(response.data); // 내용 뿌려주기
+          setThreadItems(response.data);
+          setRefreshing(false); // 새로고침 끝남
+        });
+    else
+      axios
+        .get(server + "/post/live?page=1") // 서버에서 타임라인 가져오기
+        .then(function (response) {
+          console.log(response.data); // 내용 뿌려주기
+          setThreadItems(response.data);
+          setRefreshing(false); // 새로고칢 끝남
+        });
+  };
+
+  const [threadItems, setThreadItems] = useState([]);
+  const [filterData, setFilter] = useState({ token: "" });
 
   const [refreshing, setRefreshing] = React.useState(false);
 
@@ -91,7 +70,11 @@ export default function Home({ navigation }) {
 
   return (
     <View style={{ flex: 1 }}>
-      <TopBar navigation={navigation} reload={reloadTimeline} />
+      <TopBar
+        navigation={navigation}
+        reload={reloadTimeline}
+        filter={settingFilter}
+      />
       <ScrollView
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={reloadTimeline} />
@@ -100,7 +83,7 @@ export default function Home({ navigation }) {
         {threadItems.map((item, index) => (
           <ThreadItem
             onPress={() => {
-              navigation.navigate("Order");
+              navigation.navigate("Order", { item: item });
             }}
             name={item.name}
             major={item.major}
@@ -119,7 +102,7 @@ export default function Home({ navigation }) {
           navigation.navigate("Post");
         }}
       >
-        <FontAwesomeIcon style={styles.postIcon} icon={faPencilAlt} size={30} />
+        <Text style={styles.postIcon}>✏️</Text>
       </TouchableOpacity>
     </View>
   );
@@ -142,5 +125,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowRadius: 8,
   },
-  postIcon: {},
+  postIcon: {
+    fontSize: 30,
+  },
 });

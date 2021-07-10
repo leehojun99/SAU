@@ -11,6 +11,8 @@ import {
   Linking,
 } from "react-native";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { useUserContext } from "../UserContext.js";
 import axios from "axios";
 
@@ -24,11 +26,16 @@ export default function Login({ navigation }) {
   function login() {
     axios
       .get(server + "/auth/login?userId=" + id + "&userPassword=" + password) //로그인 주소로 보내는것//
-      .then(function (response) {
+      .then(async (response) => {
         if (response.data["isLogin"] == true) {
           setUser(response.data["token"]);
-          // userContext({userCode: response.data["token"], userCookie: user.userCookie});
+
           // 로그인 성공
+
+          // 토큰을 휴대폰에 저장
+          await AsyncStorage.setItem("@userToken", response.data["token"]);
+
+          setUser(response.data["token"]);
 
           navigation.navigate("Home");
         } else {
@@ -37,7 +44,14 @@ export default function Login({ navigation }) {
       });
   }
 
-  useEffect(() => {});
+  useEffect(() => {
+    AsyncStorage.getItem("@userToken", (err, result) => {
+      if (result != null) {
+        setUser(result);
+        navigation.navigate("Home");
+      }
+    });
+  });
 
   return (
     <SafeAreaView style={styles.container}>

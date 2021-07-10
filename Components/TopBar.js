@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -18,19 +18,23 @@ export default function TopBar(props) {
             props.reload(); /* navigation.navigate('Post') */
           }}
         >
-          <Text style={styles.title}>실시간</Text>
+          <Text style={styles.title}>⏳ 실시간</Text>
         </TouchableOpacity>
         <View style={styles.icon}>
           <TouchableOpacity
             style={styles.search}
             onPress={() => {
-              props.navigation.navigate("SearchBook");
+              props.navigation.navigate("SearchBook", {
+                setBook: props.filter,
+                isSearchFilter: true,
+              });
             }}
           >
-            <FontAwesomeIcon icon={faSearch} size={25} />
+            <Text style={styles.searchText}>🔍</Text>
+            {/*<FontAwesomeIcon icon={faSearch} size={25} />*/}
           </TouchableOpacity>
           <TouchableOpacity style={styles.bell} onPress={() => {}}>
-            <FontAwesomeIcon icon={faBell} size={25} />
+            <Text style={styles.bellText}>🔔</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -69,10 +73,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+
   search: {
     paddingRight: 30,
   },
+  searchText: {
+    fontSize: 30,
+  },
   bell: {
     paddingRight: 20,
+  },
+  bellText: {
+    fontSize: 30,
   },
 });
