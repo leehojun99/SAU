@@ -25,8 +25,6 @@ import Post from "./View/Post";
 import Order from "./View/Order";
 import SearchBook from "./View/SearchBook";
 
-const Tab = createBottomTab();
-
 export default function App() {
   return (
     <NavigationContainer>
