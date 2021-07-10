@@ -15,6 +15,7 @@ const statusBarHeight = Constants.statusBarHeight;
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTab } from "@react-navigation/bottom-tabs";
 
 import { UserProviderContext } from "./UserContext"; // 유저 콘텍스트 받아온것
 
@@ -23,6 +24,8 @@ import Login from "./View/Login";
 import Post from "./View/Post";
 import Order from "./View/Order";
 import SearchBook from "./View/SearchBook";
+
+const Tab = createBottomTab();
 
 export default function App() {
   return (

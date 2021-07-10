@@ -79,6 +79,7 @@ export default function Home({ navigation, route }) {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={reloadTimeline} />
         }
+        contentContainerStyle={{ paddingBottom: 100 }}
       >
         {threadItems.map((item, index) => (
           <ThreadItem
