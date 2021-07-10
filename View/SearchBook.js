@@ -34,8 +34,7 @@ export default function SearchBook({ navigation, route }) {
   }, []);
 
   const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    searchinBarcode(data);
   };
 
   const searching = (bookTitle) => {
@@ -45,6 +44,15 @@ export default function SearchBook({ navigation, route }) {
         setSearchResult(response.data);
       });
   };
+
+  const searchinBarcode = (barcode) => {
+    axios
+      .get(server + "/book/search?isbn=" + barcode + "&type=isbn")
+      .then((response) => {
+        setSearchResult(response.data);
+      });
+  };
+
   const [searchResult, setSearchResult] = useState([]);
   return (
     <SafeAreaView style={styles.container}>
