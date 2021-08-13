@@ -13,6 +13,8 @@ import axios from "axios";
 import TopBar from "../Components/TopBar";
 import ThreadItem from "../Components/ThreadItem";
 
+import { createBottomTab } from "@react-navigation/bottom-tabs";
+
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faBell,

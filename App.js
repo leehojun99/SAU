@@ -13,17 +13,47 @@ import {
 import Constants from "expo-constants";
 const statusBarHeight = Constants.statusBarHeight;
 
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { createBottomTab } from "@react-navigation/bottom-tabs";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { UserProviderContext } from "./UserContext"; // 유저 콘텍스트 받아온것
 
+import Mypage from "./View/Mypage";
 import Home from "./View/Home";
 import Login from "./View/Login";
 import Post from "./View/Post";
 import Order from "./View/Order";
 import SearchBook from "./View/SearchBook";
+
+const tabBarOptions = {
+  tabStyle: {
+    justifyContent: "center",
+  },
+  style: {
+    height: 84,
+    paddingHorizontal: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+};
+
+const HomeTab = () => {
+  return (
+    <Tab.Navigator tabBarOptions={tabBarOptions}>
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name="MyPage"
+        component={Mypage}
+        options={{ headerShown: false }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 export default function App() {
   return (
@@ -36,12 +66,12 @@ export default function App() {
               component={Login}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
+            <Tab.Screen
               name="Home"
-              component={Home}
+              component={HomeTab}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
+            <Tab.Screen
               name="Post"
               component={Post}
               options={{ headerShown: false }}
@@ -63,8 +93,11 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
 const Stack =
   createStackNavigator(); /*창이 넘어가는게 아니라 스택형식으로 위에쌓인다*/
+
+const Tab = createBottomTabNavigator();
 
 const styles = StyleSheet.create({
   conatiner: {
