@@ -19,6 +19,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { UserProviderContext } from "./UserContext"; // 유저 콘텍스트 받아온것
 
+import Myposting from "./View/Myposting";
 import Mypage from "./View/Mypage";
 import Home from "./View/Home";
 import Login from "./View/Login";

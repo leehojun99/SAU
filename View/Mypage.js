@@ -25,44 +25,59 @@ export default function Mypage({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.Topcontainer}>
+        <Text style={styles.Topfont}>MY PAGE</Text>
+      </View>
       <View>
-        <View style={styles.Topcontainer}>
-          <View>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={styles.LogoutButton}
-              onPress={() => {
-                navigation.goBack();
-              }}
-            >
-              <Text>로그 아웃</Text>
-            </TouchableOpacity>
+        <View style={styles.Midcontainer}>
+          <View style={styles.SauTopcontainer}>
+            <Text style={styles.SauText}>SAU</Text>
           </View>
-          <View style={styles.UserInfo}>
-            <View>
-              <Image
-                style={styles.profileIcon}
-                source={{
-                  uri: me?.profileImage,
-                }}
-              />
-            </View>
-            <View>
-              <Text>{me?.name}</Text>
-              <Text>{me?.major}</Text>
-            </View>
+
+          <View style={styles.SauMidcontainer}>
+            <Text style={styles.InfoText}>{me?.name}</Text>
+            <Text style={styles.InfoText}>{me?.major}</Text>
+            <Text style={styles.InfoText}>{21811027}</Text>
           </View>
-          <View style={styles.PostErase}>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={styles.LogoutButton}
-              onPress={() => {
-                navigation.goBack();
-              }}
-            >
-              <Text>글 삭 제</Text>
-            </TouchableOpacity>
+
+          <View style={styles.SauBotcontainer}>
+            <Text style={styles.IconText}>SAU </Text>
+            <Text style={styles.UniversityText}> 신안산대학교</Text>
           </View>
+        </View>
+      </View>
+
+      <View>
+        <Image
+          style={styles.profileIcon}
+          source={{
+            uri: me?.profileImage,
+          }}
+        />
+      </View>
+      <View style={styles.Buttoncontainer}>
+        <View style={styles.Logout}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.LogoutButton}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <Text style={styles.logoutText}> Log Out </Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.MyPost}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.MyPostButton}
+            onPress={() => {
+              navigation.navigate("Myposting");
+            }}
+          >
+            <Text style={styles.logoutText}>내가 쓴 글 보기</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
@@ -74,27 +89,110 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   Topcontainer: {
+    flex: 0.1,
+    padding: 7,
+    width: 200,
+    height: 50,
+    backgroundColor: "#FFF",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 10,
+    marginLeft: 20,
+    borderRadius: 50,
+    borderWidth: 5,
+    borderColor: "red",
+  },
+  Topfont: {
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+  logoutText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "white",
+  },
+  Buttoncontainer: {
+    backgroundColor: "white",
     flexDirection: "row",
+    justifyContent: "space-around",
+    paddingBottom: 20,
+  },
+  Midcontainer: {
     padding: 20,
     backgroundColor: "#FFF",
   },
   LogoutButton: {
     justifyContent: "center",
-    padding: 10,
+    padding: 20,
+    backgroundColor: "blue",
+    borderRadius: 25,
   },
-  UserInfo: {
-    flexDirection: "row",
+  MyPostButton: {
     justifyContent: "center",
-    padding: 0,
+    padding: 20,
+    backgroundColor: "red",
+    borderRadius: 25,
   },
-  PostErase: {
-    justifyContent: "center",
-
-    padding: 0,
+  Logout: {
+    backgroundColor: "white",
+  },
+  Mypost: {
+    backgroundColor: "white",
   },
   profileIcon: {
-    width: 70,
-    height: 70,
+    width: 110,
+    height: 140,
     borderRadius: 25,
+    position: "absolute",
+    right: 35,
+    bottom: 90,
+  },
+  InfoText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    padding: 2,
+  },
+  SauText: {
+    fontSize: 50,
+    fontWeight: "bold",
+    color: "white",
+  },
+  SauTopcontainer: {
+    backgroundColor: "#0080FF",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 5,
+    paddingTop: 15,
+    paddingLeft: 20,
+    borderBottomWidth: 5,
+    borderColor: "orange",
+  },
+  SauMidcontainer: {
+    backgroundColor: "#E0ECF8",
+    padding: 5,
+    paddingLeft: 30,
+    paddingTop: 10,
+  },
+  SauBotcontainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    backgroundColor: "#E0ECF8",
+    padding: 5,
+    paddingTop: 20,
+    paddingRight: 40,
+    paddingBottom: 15,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    marginBottom: 20,
+  },
+  UniversityText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "gray",
+  },
+  IconText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#2E64FE",
   },
 });
