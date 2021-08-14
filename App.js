@@ -87,6 +87,11 @@ export default function App() {
               component={SearchBook}
               options={{ headerShown: false }}
             />
+            <Stack.Screen
+              name="Myposting"
+              component={Myposting}
+              options={{ headerShown: false }}
+            />
           </Stack.Navigator>
           <StatusBar barStyle={"light-content"} />
         </SafeAreaView>

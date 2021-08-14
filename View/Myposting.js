@@ -9,7 +9,7 @@ export default function Order({ navigation, route }) {
 
   return (
     <View style={styles.ccc}>
-      <Text>qwe123</Text>
+      <Text>Myposting</Text>
     </View>
   );
 }
