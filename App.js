@@ -39,20 +39,64 @@ const tabBarOptions = {
   },
 };
 
-const HomeTab = () => {
+const MainTab = () => {
   return (
-    <Tab.Navigator tabBarOptions={tabBarOptions}>
+    <Tab.Navigator tabBarOptions={tabBarOptions} initialRouteName="Home">
       <Tab.Screen
         name="Home"
-        component={Home}
+        component={HomePageNavigator}
         options={{ headerShown: false }}
       />
       <Tab.Screen
         name="MyPage"
-        component={Mypage}
+        component={MyPageNavigator}
         options={{ headerShown: false }}
       />
     </Tab.Navigator>
+  );
+};
+
+const HomePageNavigator = () => {
+  return (
+    <Stack.Navigator initialRouteName="Home">
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Post"
+        component={Post}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Order"
+        component={Order}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="SearchBook"
+        component={SearchBook}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const MyPageNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="MyPage"
+        component={Mypage}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Myposting"
+        component={Myposting}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
   );
 };
 
@@ -68,28 +112,8 @@ export default function App() {
               options={{ headerShown: false }}
             />
             <Tab.Screen
-              name="Home"
-              component={HomeTab}
-              options={{ headerShown: false }}
-            />
-            <Tab.Screen
-              name="Post"
-              component={Post}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Order"
-              component={Order}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="SearchBook"
-              component={SearchBook}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Myposting"
-              component={Myposting}
+              name="Main"
+              component={MainTab}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

@@ -37,7 +37,7 @@ export default function Login({ navigation }) {
 
           setUser(response.data["token"]);
 
-          navigation.navigate("Home");
+          navigation.navigate("Main");
         } else {
           alert("로그인 실패");
         } // 로그인 시도한 값이 맞는지 확인 하는것 (쿠키 형식으로 서버에서 받아서 확인함 )
@@ -48,7 +48,7 @@ export default function Login({ navigation }) {
     AsyncStorage.getItem("@userToken", (err, result) => {
       if (result != null) {
         setUser(result);
-        navigation.navigate("Home");
+        navigation.navigate("Main");
       }
     });
   });

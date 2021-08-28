@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import {
   SafeAreaView,
@@ -8,11 +9,16 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
+  Button,
+  Alert,
 } from "react-native";
 
 import ChatBox from "../Components/ChatBox";
 
+import { useUserContext } from "../UserContext.js";
+
 export default function Order({ navigation, route }) {
+  const { user, setUser } = useUserContext();
   let server = "https://api.saubook.store/"; //도메인 주소  바뀔 일 없음 .
 
   return (
@@ -30,30 +36,67 @@ export default function Order({ navigation, route }) {
               <Text style={styles.goBackText}>🔙</Text>
             </TouchableOpacity>
             <View style={styles.profile}>
-              <View style={styles.Icon}>
-                <View style={styles.profileIcon} />
-              </View>
-              <View style={styles.Icon}>
-                <Text>{route.params.item.name}</Text>
-                <Text>{route.params.item.major}과</Text>
-              </View>
-            </View>
-            <View style={styles.sellContainer}>
-              {!route.params.item.isSell ? (
-                <View style={styles.iconSale}>
-                  <Text style={styles.saleText}>판매</Text>
+              <View style={styles.profileSecond}>
+                <View style={styles.Icon}>
+                  <View style={styles.profileIcon} />
                 </View>
-              ) : (
-                <View style={styles.iconPurchase}>
-                  <Text style={styles.saleText}>구매</Text>
+                <View style={styles.Icon}>
+                  <Text>{route.params.item.name}</Text>
+                  <Text>{route.params.item.major}과</Text>
                 </View>
-              )}
+              </View>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={styles.remove}
+                onPress={() => {
+                  Alert.alert(
+                    "삭제하시겠습니까?",
+                    "글을 삭제하게 되면 되돌릴수 없습니다.",
+                    [
+                      {
+                        text: "예",
+                        onPress: () => {
+                          /* console.log(
+                            server +
+                              "post?userToken=" +
+                              user +
+                              "&token=" +
+                              route.params.item.token
+                          );*/
+                          axios.delete(
+                            server +
+                              "post?userToken=" +
+                              user +
+                              "&token=" +
+                              route.params.item.token
+                          );
+                          navigation.goBack();
+                        },
+                      },
+                      { text: "아니오" },
+                    ]
+                  );
+                }}
+              >
+                <Text style={styles.RemoveText}> 글 삭제 </Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
         <ScrollView>
           <View>
             <View style={styles.saleArea}>
+              <View style={styles.sellContainer}>
+                {!route.params.item.isSell ? (
+                  <View style={styles.iconSale}>
+                    <Text style={styles.saleText}>판매</Text>
+                  </View>
+                ) : (
+                  <View style={styles.iconPurchase}>
+                    <Text style={styles.saleText}>구매</Text>
+                  </View>
+                )}
+              </View>
               <Image
                 style={styles.bookImage}
                 source={{ uri: server + route.params.item.imageUri }}
@@ -88,6 +131,17 @@ export default function Order({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  remove: {
+    backgroundColor: "black",
+    borderRadius: 15,
+    justifyContent: "center",
+    padding: 5,
+  },
+  RemoveText: {
+    fontSize: 25,
+    color: "white",
+    fontWeight: "bold",
   },
   goBack: {
     justifyContent: "center",
@@ -137,12 +191,16 @@ const styles = StyleSheet.create({
   },
   profile: {
     flexDirection: "row",
+    justifyContent: "space-between",
     flex: 1,
     paddingTop: 20,
     paddingLeft: 20,
     paddingRight: 20,
     paddingBottom: 10,
     marginBottom: 3,
+  },
+  profileSecond: {
+    flexDirection: "row",
   },
   Icon: {
     justifyContent: "center",
@@ -223,6 +281,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   sellContainer: {
+    zIndex: 99,
+    right: 0,
+    position: "absolute",
     justifyContent: "center",
     marginRight: 20,
   },
