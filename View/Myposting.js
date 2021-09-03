@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   RefreshControl,
+  FlatList,
 } from "react-native";
 
 import ThreadItem from "../Components/ThreadItem";
@@ -18,9 +19,15 @@ export default function Myposting({ navigation, route }) {
   let server = "https://api.saubook.store"; //도메인 주소  바뀔 일 없음 .
   const { user, setUser } = useUserContext();
 
+  const [lastPage, setLastPage] = useState(1);
+
   useEffect(() => {
-    if (threadItems.length == 0) reloadTimeline();
-    console.log(filterData);
+    reloadTimeline();
+  }, [lastPage]);
+
+  useEffect(() => {
+    //if (threadItems.length == 0) reloadTimeline();
+    //console.log(filterData);
   }); //처음 들가면 화면 새로고침
 
   const settingFilter = (filterData) => {
@@ -37,7 +44,7 @@ export default function Myposting({ navigation, route }) {
         });
     else
       axios
-        .get(server + "/post/live?page=1") // 서버에서 타임라인 가져오기
+        .get(server + "/post/live?page=" + lastpage) // 서버에서 타임라인 가져오기
         .then(function (response) {
           console.log(response.data); // 내용 뿌려주기
           setThreadItems(response.data);
@@ -46,6 +53,7 @@ export default function Myposting({ navigation, route }) {
   };
 
   const [threadItems, setThreadItems] = useState([]);
+  const [lastCalledThreadItem, setLastCalledThreadItem] = useState(0);
   const [filterData, setFilter] = useState({ token: "" });
 
   const [refreshing, setRefreshing] = React.useState(false);
@@ -54,10 +62,11 @@ export default function Myposting({ navigation, route }) {
     setRefreshing(true); // 새로고침 시작
     console.log(server + "/user/myposts?userToken=" + user);
     axios
-      .get(server + "/user/myposts?userToken=" + user) // 서버에서 타임라인 가져오기
+      .get(server + "/user/myposts?userToken=" + user + "&page=" + lastPage) // 서버에서 타임라인 가져오기
       .then(function (response) {
         console.log(response.data); // 내용 뿌려주기
-        setThreadItems(response.data);
+        setThreadItems(threadItems.concat(response.data));
+        setLastCalledThreadItem(response.data.length);
         setRefreshing(false); // 새로고칢 끝남
       });
   }; // 새로고침 실시간
@@ -79,27 +88,33 @@ export default function Myposting({ navigation, route }) {
         </TouchableOpacity>
       </View>
       <View reload={reloadTimeline} filter={settingFilter} />
-      <ScrollView
+      <FlatList
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={reloadTimeline} />
         }
         contentContainerStyle={{ paddingBottom: 100 }}
-      >
-        {threadItems.map((item, index) => (
-          <ThreadItem
-            onPress={() => {
-              navigation.navigate("Order", { item: item });
-            }}
-            name={item.name}
-            major={item.major}
-            isSale={!item.isSell}
-            title={item.title}
-            description={item.description}
-            price={item.price}
-            imageUri={item.imageUri}
-          />
-        ))}
-      </ScrollView>
+        data={threadItems}
+        renderItem={({ item }) => {
+          return (
+            <ThreadItem
+              onPress={() => {
+                navigation.navigate("Order", { item: item });
+              }}
+              name={item.name}
+              major={item.major}
+              isSale={!item.isSell}
+              title={item.title}
+              description={item.description}
+              price={item.price}
+              imageUri={item.imageUri}
+            />
+          );
+        }}
+        onEndReachedThreshold={0.5}
+        onEndReached={() => {
+          if (lastCalledThreadItem != 0) setLastPage(lastPage + 1);
+        }}
+      ></FlatList>
     </View>
   );
 }
