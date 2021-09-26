@@ -56,13 +56,13 @@ export default function Order({ navigation, route }) {
                       {
                         text: "예",
                         onPress: () => {
-                          /* console.log(
+                          console.log(
                             server +
                               "post?userToken=" +
                               user +
                               "&token=" +
                               route.params.item.token
-                          );*/
+                          );
                           axios.delete(
                             server +
                               "post?userToken=" +

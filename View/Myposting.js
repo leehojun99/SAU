@@ -76,17 +76,7 @@ export default function Myposting({ navigation, route }) {
       <View style={styles.TopContainer}>
         <Text style={styles.Topfont}>Myposting</Text>
       </View>
-      <View style={styles.Logout}>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={styles.LogoutButton}
-          onPress={() => {
-            navigation.goBack();
-          }}
-        >
-          <Text style={styles.logoutText}> Log Out </Text>
-        </TouchableOpacity>
-      </View>
+
       <View reload={reloadTimeline} filter={settingFilter} />
       <FlatList
         refreshControl={

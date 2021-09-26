@@ -72,7 +72,7 @@ export default function Home({ navigation, route }) {
     axios
       .get(server + "/post/live?page=" + lastPage) // 서버에서 타임라인 가져오기
       .then(function (response) {
-        console.log(response.data); // 내용 뿌려주기
+        // console.log(response.data); // 내용 뿌려주기
         setThreadItems(threadItems.concat(response.data));
         setLastCalledThreadItem(response.data.length);
         setRefreshing(false); // 새로고칢 끝남
@@ -83,12 +83,21 @@ export default function Home({ navigation, route }) {
     <View style={{ flex: 1 }}>
       <TopBar
         navigation={navigation}
-        reload={reloadTimeline}
+        reload={() => {
+          setLastPage(1);
+          setThreadItems([]);
+        }}
         filter={settingFilter}
       />
       <FlatList
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={reloadTimeline} />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => {
+              setLastPage(1);
+              setThreadItems([]);
+            }}
+          />
         }
         contentContainerStyle={{ paddingBottom: 100 }}
         data={threadItems}
