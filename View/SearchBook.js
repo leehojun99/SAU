@@ -20,6 +20,7 @@ import {
   faAngleLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import ThreadItem from "../Components/ThreadItem";
+import { Dimensions } from "react-native";
 
 export default function SearchBook({ navigation, route }) {
   const { user, setUser } = useUserContext();
@@ -75,10 +76,10 @@ export default function SearchBook({ navigation, route }) {
           ></TextInput>
         </View>
       </View>
-      <View style={{ height: 130 }}>
+      <View style={{ height: 130, overflow: "hidden" }}>
         <BarCodeScanner
           onBarCodeScanned={handleBarCodeScanned}
-          style={{ width: "100%", height: 130 }}
+          style={{ height: Dimensions.get("window").height - 80 }}
         />
       </View>
       {route.params.isSearchFilter ? (
