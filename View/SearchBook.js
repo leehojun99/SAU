@@ -78,7 +78,7 @@ export default function SearchBook({ navigation, route }) {
       <View style={{ height: 130 }}>
         <BarCodeScanner
           onBarCodeScanned={handleBarCodeScanned}
-          style={StyleSheet.absoluteFillObject}
+          style={{ width: "100%", height: 130 }}
         />
       </View>
       {route.params.isSearchFilter ? (

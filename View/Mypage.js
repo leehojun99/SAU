@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import { useUserContext } from "../UserContext";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export default function Mypage({ navigation, route }) {
   const { user, setUser } = useUserContext();
   let server = "https://api.saubook.store";
@@ -37,7 +39,7 @@ export default function Mypage({ navigation, route }) {
           <View style={styles.SauMidcontainer}>
             <Text style={styles.InfoText}>{me?.name}</Text>
             <Text style={styles.InfoText}>{me?.major}</Text>
-            <Text style={styles.InfoText}>{21811027}</Text>
+            <Text style={styles.InfoText}>{me?.id}</Text>
           </View>
 
           <View style={styles.SauBotcontainer}>
@@ -61,7 +63,9 @@ export default function Mypage({ navigation, route }) {
             activeOpacity={0.8}
             style={styles.LogoutButton}
             onPress={() => {
-              navigation.goBack();
+              AsyncStorage.setItem("@userToken", "");
+
+              navigation.navigate("Login");
             }}
           >
             <Text style={styles.logoutText}> Log Out </Text>
@@ -89,7 +93,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   Topcontainer: {
-    flex: 0.1,
+    flex: 0.2,
     padding: 7,
     width: 200,
     height: 50,

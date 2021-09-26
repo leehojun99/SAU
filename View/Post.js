@@ -4,6 +4,7 @@ import React, {
   useContext,
   useState,
   createRef,
+  useEffect,
 } from "react";
 import {
   StyleSheet,
@@ -20,6 +21,7 @@ import ToggleButton from "../Components/ToggleButton";
 import { useUserContext } from "../UserContext";
 import axios from "axios";
 import SearchBook from "./SearchBook";
+import * as ImagePicker from "expo-image-picker";
 
 export default function Post({ navigation, route }) {
   const { user, setUser } = useUserContext();
@@ -61,6 +63,34 @@ export default function Post({ navigation, route }) {
   const [majorValue, setMajorValue] = useState(0);
   const [sellValue, setSellValue] = useState(false);
   const [bookData, setBookData] = useState("");
+  const [image, setImage] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== "web") {
+        const { status } =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== "granted") {
+          alert("Sorry, we need camera roll permissions to make this work!");
+        }
+      }
+    })();
+  }, []);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
 
   return (
     <View>
@@ -95,10 +125,17 @@ export default function Post({ navigation, route }) {
       </View>
 
       <View style={styles.CheckArea}>
-        <Image
-          style={styles.bookImage}
-          source={{ uri: server + "/" + bookData.imageUri }}
-        ></Image>
+        <TouchableOpacity onPress={pickImage}>
+          <Image
+            style={styles.bookImage}
+            source={{
+              uri:
+                image == null || bookData.imageUri
+                  ? server + "/" + bookData.imageUri
+                  : image,
+            }}
+          ></Image>
+        </TouchableOpacity>
         <View style={styles.rightContainer}>
           <View style={styles.Check}>
             <ToggleButton
