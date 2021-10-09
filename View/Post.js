@@ -77,6 +77,10 @@ export default function Post({ navigation, route }) {
     })();
   }, []);
 
+  useEffect(() => {
+    if (image == null && bookData != "") pickImage();
+  }, [bookData]);
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -85,10 +89,22 @@ export default function Post({ navigation, route }) {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.cancelled) {
-      setImage(result.uri);
+      const formData = new FormData();
+      formData.append("attachment", {
+        name: "img",
+        type: "image/jpeg",
+        uri: result.uri,
+      });
+
+      axios
+        .post(server + "/upload/img", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((res) => {
+          setImage(server + "/" + res.data.filename);
+          console.log(server + "/" + res.data.filename);
+        });
     }
   };
 
@@ -129,10 +145,7 @@ export default function Post({ navigation, route }) {
           <Image
             style={styles.bookImage}
             source={{
-              uri:
-                image == null || bookData.imageUri
-                  ? server + "/" + bookData.imageUri
-                  : image,
+              uri: image == null ? server + "/" + bookData.imageUri : image,
             }}
           ></Image>
         </TouchableOpacity>
