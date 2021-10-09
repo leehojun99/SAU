@@ -34,7 +34,8 @@ export default function Post({ navigation, route }) {
   };
 
   const posting = () => {
-    console.log("userCode : " + user);
+    const imageUri = image != "" ? image : bookData.imageUri;
+    console.log(image);
     axios
       .post(
         server +
@@ -49,10 +50,10 @@ export default function Post({ navigation, route }) {
           "&major=11&price=" +
           priceValue +
           "&imageUri=" +
-          bookData.imageUri
+          imageUri
       )
       .then(function (response) {
-        console.log(response);
+        // console.log(response);
         navigation.navigate("Home");
       });
   };
@@ -102,8 +103,7 @@ export default function Post({ navigation, route }) {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((res) => {
-          setImage(server + "/" + res.data.filename);
-          console.log(server + "/" + res.data.filename);
+          setImage(res.data.filename);
         });
     }
   };
@@ -145,7 +145,10 @@ export default function Post({ navigation, route }) {
           <Image
             style={styles.bookImage}
             source={{
-              uri: image == null ? server + "/" + bookData.imageUri : image,
+              uri:
+                image == null
+                  ? server + "/" + bookData.imageUri
+                  : server + "/" + image,
             }}
           ></Image>
         </TouchableOpacity>
