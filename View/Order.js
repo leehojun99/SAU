@@ -119,7 +119,13 @@ export default function Order({ navigation, route }) {
           <Text style={styles.timeText}>{route.params.item.timestamp}</Text>
         </View>
         <View style={styles.bottomTabRight}>
-          <TouchableOpacity style={styles.chatButton}>
+          <TouchableOpacity
+            style={styles.chatButton}
+            activeOpacity={0.8}
+            onPress={() => {
+              navigation.navigate("Chat", { item: route.params.item });
+            }}
+          >
             <Text style={styles.chatButtonText}>댓글 남기기 </Text>
           </TouchableOpacity>
         </View>

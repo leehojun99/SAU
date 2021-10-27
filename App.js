@@ -26,6 +26,7 @@ import Login from "./View/Login";
 import Post from "./View/Post";
 import Order from "./View/Order";
 import SearchBook from "./View/SearchBook";
+import Chat from "./View/Chat";
 
 const tabBarOptions = {
   tabStyle: {
@@ -77,6 +78,11 @@ const HomePageNavigator = () => {
       <Stack.Screen
         name="SearchBook"
         component={SearchBook}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Chat"
+        component={Chat}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
