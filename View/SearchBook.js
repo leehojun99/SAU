@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
+  FlatList,
 } from "react-native";
 
 import { BarCodeScanner } from "expo-barcode-scanner";
@@ -87,7 +88,7 @@ export default function SearchBook({ navigation, route }) {
           style={styles.filterOff}
           onPress={() => {
             // 필터 해제
-            route.params.setBook("");
+            //route.params.setBook("");
             navigation.goBack();
           }}
         >
@@ -149,7 +150,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   searchResult: {
-    marginBottom: 80,
+    marginBottom: 250,
   },
   filterOff: {
     padding: 10,

@@ -46,7 +46,7 @@ export default function ThreadItem(props) {
               </View>
             )}
             <View style={styles.thisprice}>
-              <Text style={styles.priceClass}>\{props.price}</Text>
+              <Text style={styles.priceClass}>{props.price} ₩</Text>
             </View>
           </View>
           {props.isSearchData ? (
