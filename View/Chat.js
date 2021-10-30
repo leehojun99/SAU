@@ -92,7 +92,7 @@ export default function Chat({ navigation, route }) {
                     </Text>
                   </View>
                 </View>
-                <View style={styles.Comments}>
+                <View>
                   <TouchableOpacity
                     activeOpacity={0.8}
                     onPress={() => {
@@ -128,7 +128,9 @@ export default function Chat({ navigation, route }) {
                       );
                     }}
                   >
-                    <Text style={styles.ExFont}>{item.contents}</Text>
+                    <View style={styles.Comments}>
+                      <Text style={styles.ExFont}>{item.contents}</Text>
+                    </View>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -233,7 +235,7 @@ const styles = StyleSheet.create({
   },
   Time: {
     paddingRight: 18,
-    marginTop: 10,
+    marginTop: 15,
     fontSize: 10,
   },
 });
