@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, version } from "react";
 import {
   View,
   StyleSheet,
@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   TextInput,
   FlatList,
+  Alert,
 } from "react-native";
 import { useUserContext } from "../UserContext.js";
 
@@ -23,19 +24,21 @@ export default function Chat({ navigation, route }) {
   const [commentList, setCommentList] = useState([]);
   const postComment = () => {
     console.log(route.params.item);
-    axios.post(
-      server +
-        "/chat?token=" +
-        user +
-        "&postToken=" +
-        route.params.item.token +
-        "&contents=" +
-        comment
-    );
+    axios
+      .post(
+        server +
+          "/chat?token=" +
+          user +
+          "&postToken=" +
+          route.params.item.token +
+          "&contents=" +
+          comment
+      )
+      .then(() => {
+        setComment("");
 
-    setComment("");
-
-    reload();
+        reload();
+      });
   };
 
   const reload = () => {
@@ -74,10 +77,55 @@ export default function Chat({ navigation, route }) {
             return (
               <View>
                 <View style={styles.User}>
-                  <Text style={styles.UserText}>{item.name}</Text>
+                  <View>
+                    <Text style={styles.UserText}>
+                      {item.major + "과 " + item.name}
+                    </Text>
+                  </View>
+                  <View>
+                    <Text style={styles.Time}>
+                      {route.params.item.timestamp}
+                    </Text>
+                  </View>
                 </View>
                 <View style={styles.Comments}>
-                  <Text style={styles.ExFont}>{item.contents}</Text>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => {
+                      Alert.alert(
+                        "댓글을 삭제하시겠습니까?",
+                        "삭제할경우 되돌릴수 없습니다.",
+                        [
+                          {
+                            text: "예",
+                            onPress: () => {
+                              console.log(
+                                server +
+                                  "/chat?token=" +
+                                  item.token +
+                                  "&userToken=" +
+                                  user
+                              );
+                              axios
+                                .delete(
+                                  server +
+                                    "/chat?token=" +
+                                    item.token +
+                                    "&userToken=" +
+                                    user
+                                )
+                                .then(() => {
+                                  reload();
+                                });
+                            },
+                          },
+                          { text: "아니요" },
+                        ]
+                      );
+                    }}
+                  >
+                    <Text style={styles.ExFont}>{item.contents}</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             );
@@ -127,7 +175,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   ExFont: {
-    fontSize: 30,
+    fontSize: 20,
   },
   ChatText: {
     flex: 0.1,
@@ -163,7 +211,7 @@ const styles = StyleSheet.create({
   UserText: {
     paddingLeft: 15,
     marginTop: 10,
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: "bold",
   },
   TopLogo: {
@@ -174,5 +222,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 30,
     color: "#CC66FF",
+  },
+  User: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  Time: {
+    paddingRight: 18,
+    marginTop: 10,
+    fontSize: 10,
   },
 });
