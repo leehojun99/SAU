@@ -16,6 +16,7 @@ import {
 import ChatBox from "../Components/ChatBox";
 
 import { useUserContext } from "../UserContext.js";
+import moment from "moment";
 
 export default function Order({ navigation, route }) {
   const { user, setUser } = useUserContext();
@@ -116,7 +117,9 @@ export default function Order({ navigation, route }) {
       <View style={styles.bottomTab}>
         <View style={styles.bottomTabLeft}>
           <Text style={styles.priceText}>{route.params.item.price}원</Text>
-          <Text style={styles.timeText}>{route.params.item.timestamp}</Text>
+          <Text style={styles.timeText}>
+            {moment(route.params.item.timestamp).format("YY-MM-DD hh:mm")}
+          </Text>
         </View>
         <View style={styles.bottomTabRight}>
           <TouchableOpacity

@@ -65,6 +65,7 @@ export default function Post({ navigation, route }) {
   const [sellValue, setSellValue] = useState(false);
   const [bookData, setBookData] = useState("");
   const [image, setImage] = useState(null);
+  const [me, setMe] = useState();
 
   useEffect(() => {
     (async () => {
@@ -81,6 +82,13 @@ export default function Post({ navigation, route }) {
   useEffect(() => {
     if (image == null && bookData != "") pickImage();
   }, [bookData]);
+  useEffect(() => {
+    axios
+      .get(server + "/user/me?userToken=" + user) // 서버에서 타임라인 가져오기
+      .then(function (response) {
+        setMe(response.data[0]); // 내용 뿌려주기
+      });
+  }, []);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -131,11 +139,16 @@ export default function Post({ navigation, route }) {
       <View style={styles.pofileContainer}>
         <View style={styles.profile}>
           <View style={styles.Icon}>
-            <View style={styles.profileIcon} />
+            <Image
+              style={styles.profileIcon}
+              source={{
+                uri: me?.profileImage,
+              }}
+            />
           </View>
           <View style={styles.Icon}>
-            <Text>SalerName :</Text>
-            <Text>major:</Text>
+            <Text style={styles.UserText}>{me?.name}</Text>
+            <Text style={styles.UserText}>{me?.major}</Text>
           </View>
         </View>
       </View>
@@ -221,7 +234,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: "#2F3E75",
+    backgroundColor: "blue",
     marginRight: 10,
   },
   rightContainer: {
@@ -302,5 +315,10 @@ const styles = StyleSheet.create({
     marginRight: 30,
     marginTop: 5,
     alignItems: "center",
+  },
+
+  UserText: {
+    fontSize: 15,
+    padding: 2,
   },
 });
