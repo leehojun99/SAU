@@ -14,6 +14,8 @@ import {
 } from "react-native";
 import { useUserContext } from "../UserContext.js";
 
+import moment from "moment";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Chat({ navigation, route }) {
@@ -84,7 +86,9 @@ export default function Chat({ navigation, route }) {
                   </View>
                   <View>
                     <Text style={styles.Time}>
-                      {route.params.item.timestamp}
+                      {moment(route.params.item.timestamp).format(
+                        "YY-MM-DD hh:mm"
+                      )}
                     </Text>
                   </View>
                 </View>
