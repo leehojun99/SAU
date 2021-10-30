@@ -51,11 +51,11 @@ export default function Order({ navigation, route }) {
                 style={styles.remove}
                 onPress={() => {
                   Alert.alert(
-                    "삭제하시겠습니까?",
+                    " 글 관리하기 ",
                     "글을 삭제하게 되면 되돌릴수 없습니다.",
                     [
                       {
-                        text: "예",
+                        text: "삭제",
                         onPress: () => {
                           console.log(
                             server +
@@ -74,12 +74,13 @@ export default function Order({ navigation, route }) {
                           navigation.goBack();
                         },
                       },
-                      { text: "아니오" },
+                      { text: "수정" },
+                      { text: "취소 " },
                     ]
                   );
                 }}
               >
-                <Text style={styles.RemoveText}> 글 삭제 </Text>
+                <Text style={styles.RemoveText}> 글 관리 </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -87,17 +88,6 @@ export default function Order({ navigation, route }) {
         <ScrollView>
           <View>
             <View style={styles.saleArea}>
-              <View style={styles.sellContainer}>
-                {!route.params.item.isSell ? (
-                  <View style={styles.iconSale}>
-                    <Text style={styles.saleText}>판매</Text>
-                  </View>
-                ) : (
-                  <View style={styles.iconPurchase}>
-                    <Text style={styles.saleText}>구매</Text>
-                  </View>
-                )}
-              </View>
               <Image
                 style={styles.bookImage}
                 source={{ uri: server + route.params.item.imageUri }}
@@ -116,10 +106,27 @@ export default function Order({ navigation, route }) {
       </SafeAreaView>
       <View style={styles.bottomTab}>
         <View style={styles.bottomTabLeft}>
-          <Text style={styles.priceText}>{route.params.item.price}원</Text>
-          <Text style={styles.timeText}>
-            {moment(route.params.item.timestamp).format("YY-MM-DD hh:mm")}
-          </Text>
+          <View style={styles.bottomTabLeftDetails}>
+            <View>
+              <Text style={styles.priceText}>
+                {route.params.item.price} 원{" "}
+              </Text>
+              <Text style={styles.timeText}>
+                {moment(route.params.item.timestamp).format("YY-MM-DD hh:mm")}
+              </Text>
+            </View>
+            <View style={styles.sellContainer}>
+              {!route.params.item.isSell ? (
+                <View style={styles.iconSale}>
+                  <Text style={styles.saleText}>판매</Text>
+                </View>
+              ) : (
+                <View style={styles.iconPurchase}>
+                  <Text style={styles.saleText}>구매</Text>
+                </View>
+              )}
+            </View>
+          </View>
         </View>
         <View style={styles.bottomTabRight}>
           <TouchableOpacity
@@ -226,7 +233,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 10,
     marginBottom: 10,
-
     shadowColor: "#333",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.4,
@@ -243,11 +249,11 @@ const styles = StyleSheet.create({
   },
   iconPurchase: {
     marginTop: 5,
-    padding: 2.5,
+    padding: 3,
     paddingLeft: 5,
     paddingRight: 5,
     width: 80,
-    height: 40,
+    height: 42,
     borderRadius: 5,
     backgroundColor: "#1DDB16",
     alignItems: "center",
@@ -255,11 +261,11 @@ const styles = StyleSheet.create({
   },
   iconSale: {
     marginTop: 5,
-    padding: 2.5,
+    padding: 3,
     paddingLeft: 5,
     paddingRight: 5,
     width: 80,
-    height: 40,
+    height: 42,
     borderRadius: 5,
     backgroundColor: "#FF0000",
     alignItems: "center",
@@ -291,10 +297,9 @@ const styles = StyleSheet.create({
   },
   sellContainer: {
     zIndex: 99,
-    right: 0,
-    position: "absolute",
     justifyContent: "center",
-    marginRight: 20,
+    marginLeft: 20,
+    marginRight: 5,
   },
   bottomTab: {
     height: 100,
@@ -323,7 +328,9 @@ const styles = StyleSheet.create({
   },
   priceText: {
     fontSize: 20,
-    margin: 10,
+    marginLeft: 10,
+    marginBottom: 5,
+    marginTop: 13,
   },
   timeText: {
     fontSize: 14,
@@ -333,5 +340,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#79a1cd",
     padding: 10,
     borderRadius: 7,
+  },
+  bottomTabLeftDetails: {
+    flexDirection: "row",
   },
 });
