@@ -29,8 +29,35 @@ export default function Post({ navigation, route }) {
 
   const getMyData = () => {
     axios.post(server + "/getMy?token=" + user).then(function (response) {
-      console.log(response);
+      console.log(response.data);
     });
+  };
+
+  const editing = () => {
+    const imageUri = image != "" ? image : bookData.imageUri;
+
+    axios
+      .put(
+        server +
+          "/post?token=" +
+          route.params.token +
+          "&userToken=" +
+          user +
+          "&bookToken=" +
+          bookData.token +
+          "&isSell=" +
+          sellValue +
+          "&description=" +
+          content +
+          "&major=11&price=" +
+          priceValue +
+          "&imageUri=" +
+          imageUri
+      )
+      .then(function (response) {
+        // console.log(response);
+        navigation.navigate("Home");
+      });
   };
 
   const posting = () => {
@@ -66,6 +93,18 @@ export default function Post({ navigation, route }) {
   const [bookData, setBookData] = useState("");
   const [image, setImage] = useState(null);
   const [me, setMe] = useState();
+
+  useEffect(() => {
+    axios
+      .get(server + "/post?token=" + route.params.token + "&userToken=" + user)
+      .then((response) => {
+        const data = response.data[0];
+        onChangeContent(data.description);
+        setImage(data.imageUri);
+        setSellValue(data.isSell);
+        onChangePrice(data.price.toString());
+      });
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -131,7 +170,7 @@ export default function Post({ navigation, route }) {
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.Ok}
-          onPress={posting}
+          onPress={route.params["isEdit"] == true ? editing : posting}
         >
           <Text style={styles.Oktext}>📝</Text>
         </TouchableOpacity>

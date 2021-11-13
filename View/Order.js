@@ -74,8 +74,16 @@ export default function Order({ navigation, route }) {
                           navigation.goBack();
                         },
                       },
-                      { text: "수정" },
-                      { text: "취소 " },
+                      {
+                        text: "수정",
+                        onPress: () => {
+                          navigation.navigate("Post", {
+                            token: route.params.item.token,
+                            isEdit: true,
+                          });
+                        },
+                      },
+                      { text: "취소" },
                     ]
                   );
                 }}
