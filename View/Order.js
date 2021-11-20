@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -17,10 +17,23 @@ import ChatBox from "../Components/ChatBox";
 
 import { useUserContext } from "../UserContext.js";
 import moment from "moment";
+import { ReloadInstructions } from "react-native/Libraries/NewAppScreen";
 
 export default function Order({ navigation, route }) {
   const { user, setUser } = useUserContext();
   let server = "https://api.saubook.store/"; //도메인 주소  바뀔 일 없음 .
+
+  const [item, setItem] = useState(route.params.item);
+
+  const reload = () => {
+    console.log("call reload");
+    axios
+      .get(server + "post?token=" + item.token + "&user_token=" + user)
+      .then((response) => {
+        console.log(response.data[0]);
+        setItem(response.data[0]);
+      });
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -42,8 +55,8 @@ export default function Order({ navigation, route }) {
                   <View style={styles.profileIcon} />
                 </View>
                 <View style={styles.Icon}>
-                  <Text>{route.params.item.name}</Text>
-                  <Text>{route.params.item.major}과</Text>
+                  <Text>{item.name}</Text>
+                  <Text>{item.major}과</Text>
                 </View>
               </View>
               <TouchableOpacity
@@ -62,14 +75,14 @@ export default function Order({ navigation, route }) {
                               "post?userToken=" +
                               user +
                               "&token=" +
-                              route.params.item.token
+                              item.token
                           );
                           axios.delete(
                             server +
                               "post?userToken=" +
                               user +
                               "&token=" +
-                              route.params.item.token
+                              item.token
                           );
                           navigation.goBack();
                         },
@@ -78,9 +91,36 @@ export default function Order({ navigation, route }) {
                         text: "수정",
                         onPress: () => {
                           navigation.navigate("Post", {
-                            token: route.params.item.token,
+                            token: item.token,
                             isEdit: true,
                           });
+                        },
+                      },
+                      {
+                        text: "거래완료",
+                        onPress: () => {
+                          axios
+                            .put(
+                              server +
+                                "post?token=" +
+                                item.token +
+                                "&user_token=" +
+                                user +
+                                "&isSell=" +
+                                item.isSell +
+                                "&description=" +
+                                item.description +
+                                "&price=" +
+                                item.price +
+                                "&imageUri=" +
+                                item.imageUri +
+                                "&isComplete=" +
+                                true
+                            )
+                            .then(function (response) {
+                              // 화면 리로드
+                              reload();
+                            });
                         },
                       },
                       { text: "취소" },
@@ -98,17 +138,15 @@ export default function Order({ navigation, route }) {
             <View style={styles.saleArea}>
               <Image
                 style={styles.bookImage}
-                source={{ uri: server + route.params.item.imageUri }}
+                source={{ uri: server + item.imageUri }}
               ></Image>
             </View>
           </View>
           <View style={styles.book}>
-            <Text style={styles.bookName}>{route.params.item.title}</Text>
+            <Text style={styles.bookName}>{item.title}</Text>
           </View>
           <View>
-            <Text style={styles.description}>
-              {route.params.item.description}
-            </Text>
+            <Text style={styles.description}>{item.description}</Text>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -116,21 +154,25 @@ export default function Order({ navigation, route }) {
         <View style={styles.bottomTabLeft}>
           <View style={styles.bottomTabLeftDetails}>
             <View>
-              <Text style={styles.priceText}>
-                {route.params.item.price} 원{" "}
-              </Text>
+              <Text style={styles.priceText}>{item.price} 원 </Text>
               <Text style={styles.timeText}>
-                {moment(route.params.item.timestamp).format("YY-MM-DD hh:mm")}
+                {moment(item.timestamp).format("YY-MM-DD hh:mm")}
               </Text>
             </View>
             <View style={styles.sellContainer}>
-              {!route.params.item.isSell ? (
-                <View style={styles.iconSale}>
-                  <Text style={styles.saleText}>판매</Text>
-                </View>
+              {!item.isComplete ? (
+                !item.isSell ? (
+                  <View style={styles.iconSale}>
+                    <Text style={styles.saleText}>판매</Text>
+                  </View>
+                ) : (
+                  <View style={styles.iconPurchase}>
+                    <Text style={styles.saleText}>구매</Text>
+                  </View>
+                )
               ) : (
                 <View style={styles.iconPurchase}>
-                  <Text style={styles.saleText}>구매</Text>
+                  <Text style={styles.saleText}>완료</Text>
                 </View>
               )}
             </View>
@@ -141,7 +183,7 @@ export default function Order({ navigation, route }) {
             style={styles.chatButton}
             activeOpacity={0.8}
             onPress={() => {
-              navigation.navigate("Chat", { item: route.params.item });
+              navigation.navigate("Chat", { item: item });
             }}
           >
             <Text style={styles.chatButtonText}>댓글 남기기 </Text>

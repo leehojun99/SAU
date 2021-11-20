@@ -110,6 +110,7 @@ export default function Home({ navigation, route }) {
               name={item.name}
               major={item.major}
               isSale={!item.isSell}
+              isComplete={item.isComplete}
               title={item.title}
               description={item.description}
               price={item.price}

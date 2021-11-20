@@ -97,6 +97,7 @@ export default function Myposting({ navigation, route }) {
               description={item.description}
               price={item.price}
               imageUri={item.imageUri}
+              isComplete={item.isComplete}
             />
           );
         }}

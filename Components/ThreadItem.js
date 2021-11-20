@@ -25,13 +25,19 @@ export default function ThreadItem(props) {
             <View>
               {props.isSearchData ? (
                 <View />
-              ) : props.isSale ? (
-                <View style={styles.iconSale}>
-                  <Text style={styles.saleText}>판매</Text>
-                </View>
+              ) : !props.isComplete ? (
+                props.isSale ? (
+                  <View style={styles.iconSale}>
+                    <Text style={styles.saleText}>판매</Text>
+                  </View>
+                ) : (
+                  <View style={styles.iconPurchase}>
+                    <Text style={styles.saleText}>구매</Text>
+                  </View>
+                )
               ) : (
                 <View style={styles.iconPurchase}>
-                  <Text style={styles.saleText}>구매</Text>
+                  <Text style={styles.saleText}>완료</Text>
                 </View>
               )}
             </View>
