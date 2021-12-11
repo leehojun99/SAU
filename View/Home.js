@@ -127,7 +127,7 @@ export default function Home({ navigation, route }) {
         style={styles.post}
         activeOpacity={0.8}
         onPress={() => {
-          navigation.navigate("Post");
+          navigation.navigate("Post", { isEdit: false });
         }}
       >
         <Text style={styles.postIcon}>✏️</Text>

@@ -35,7 +35,7 @@ export default function Post({ navigation, route }) {
 
   const editing = () => {
     const imageUri = image != "" ? image : bookData.imageUri;
-
+    console.log(bookData);
     axios
       .put(
         server +
@@ -52,10 +52,10 @@ export default function Post({ navigation, route }) {
           "&major=11&price=" +
           priceValue +
           "&imageUri=" +
-          imageUri
+          imageUri +
+          "&isComplete=false"
       )
       .then(function (response) {
-        // console.log(response);
         navigation.navigate("Home");
       });
   };
@@ -103,6 +103,12 @@ export default function Post({ navigation, route }) {
         setImage(data.imageUri);
         setSellValue(data.isSell);
         onChangePrice(data.price.toString());
+
+        axios
+          .get(server + "/book?token=" + data.book_token + "&userToken=" + user)
+          .then((resp) => {
+            setBookData(resp.data[0]);
+          });
       });
   }, []);
 
@@ -170,7 +176,7 @@ export default function Post({ navigation, route }) {
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.Ok}
-          onPress={route.params["isEdit"] == true ? editing : posting}
+          onPress={route.params.isEdit == true ? editing : posting}
         >
           <Text style={styles.Oktext}>📝</Text>
         </TouchableOpacity>
